@@ -10,6 +10,7 @@ export default class MunicipalitiesController {
             await theMunicipality.load('department')
             await theMunicipality.load('distributionCenter')
             await theMunicipality.load('address')
+            await theMunicipality.load('operation')
             return theMunicipality;
         } else {
             const data = request.all()
