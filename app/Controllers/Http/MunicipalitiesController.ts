@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Municipality from 'App/Models/Municipality';
+import MunicipalityValidator from 'App/Validators/MunicipalityValidator';
 
 export default class MunicipalitiesController {
 
@@ -7,6 +8,8 @@ export default class MunicipalitiesController {
         if (params.id) {
             let theMunicipality: Municipality = await Municipality.findOrFail(params.id)
             await theMunicipality.load('department')
+            await theMunicipality.load('distributionCenter')
+            await theMunicipality.load('address')
             return theMunicipality;
         } else {
             const data = request.all()
@@ -25,6 +28,7 @@ export default class MunicipalitiesController {
     //Es una funcion asincrona, que hace que se pueda hacer el create en paralelo 
     //con otras peticiones de manera simultanea
     public async create({ request }: HttpContextContract) {
+        await request.validate(MunicipalityValidator)
         const body = request.body(); //La request es toda la carta, se lee el contenido y queda en el body
         const theMunicipality: Municipality = await Municipality.create(body); //Esto le pide que espere 
         //El await es siempre para hacer consultas en bases de datos 

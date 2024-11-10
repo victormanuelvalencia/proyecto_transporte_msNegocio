@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Department from 'App/Models/Department';
+import DepartmentValidator from 'App/Validators/DepartmentValidator';
 
 export default class DepartmentsController {
     public async find({ request, params }: HttpContextContract) {
@@ -24,6 +25,7 @@ export default class DepartmentsController {
     //Es una funcion asincrona, que hace que se pueda hacer el create en paralelo 
     //con otras peticiones de manera simultanea
     public async create({ request }: HttpContextContract) {
+        await request.validate(DepartmentValidator)
         const body = request.body(); //La request es toda la carta, se lee el contenido y queda en el body
         const theDepartment: Department = await Department.create(body); //Esto le pide que espere 
         return theDepartment;

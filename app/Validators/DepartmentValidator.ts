@@ -6,7 +6,9 @@ export default class DepartmentValidator {
 
   public schema = schema.create({
     name: schema.string({}, [
-      rules.regex(/^[A-Za-z\s]+$/), // Solo letras y espacios
+      rules.alphaNum({
+        allow: ['space']
+      })
     ]),
     zip_code: schema.number(),
   })

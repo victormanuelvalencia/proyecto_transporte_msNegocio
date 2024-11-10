@@ -7,7 +7,7 @@ export default class Department extends BaseModel {
   public id: number
 
   @column()
-  public name:String
+  public name:string
 
   @column()
   public zip_code:number
@@ -20,7 +20,7 @@ export default class Department extends BaseModel {
 
   @hasMany(() => Municipality, {
     //nombre de la clave foranea que permite la relacion
-    foreignKey: 'theater_id'
+    foreignKey: 'department_id'
   })
   public municipality: HasMany<typeof Municipality>
 }
