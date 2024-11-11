@@ -1,25 +1,21 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 
-export default class Lote extends BaseModel {
+export default class Product extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
   @column()
-  public categoria: string
-
-  @column({
-    serializeAs: 'productos',
-    prepare: (value: any) => JSON.stringify(value),
-    consume: (value: any) => JSON.parse(value),
-  })
-  public productos: string[]
+  public nombre: string
 
   @column()
-  public total_productos: number
+  public descripcion: string
 
   @column()
-  public total_peso: number
+  public precio: number
+
+  @column()
+  public peso: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

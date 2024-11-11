@@ -6,9 +6,9 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-import "./routes/categorias"
-import "./routes/lotes"
-import "./routes/productos"
+import "./routes/categories"
+import "./routes/lots"
+import "./routes/products"
 import "./routes/departments"
 import "./routes/municipalities"
 import "./routes/addresses"
