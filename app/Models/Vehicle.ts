@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Operation from './Operation'
+import OwnerVehicle from './OwnerVehicle'
 
 export default class Vehicle extends BaseModel {
   @column({ isPrimary: true })
@@ -28,4 +29,9 @@ export default class Vehicle extends BaseModel {
     foreignKey: 'vehicle_id'
   })
   public operation: HasMany<typeof Operation>
+
+  @hasMany(() => OwnerVehicle, {
+    foreignKey: 'vehicle_id', // Establece la clave foránea en la tabla OwnerVehicle
+  })
+  public ownerVehicles: HasMany<typeof OwnerVehicle>;
 }

@@ -1,5 +1,3 @@
-
-
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('/', async () => {
@@ -17,3 +15,6 @@ import "./routes/operations"
 import "./routes/vehicles"
 import "./routes/dirListOrder"
 import "./routes/rutes"
+import "./routes/insurances"
+import "./routes/ownerVehicles"
+import "./routes/owners"
