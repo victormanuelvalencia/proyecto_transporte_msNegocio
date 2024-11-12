@@ -1,20 +1,21 @@
-import BaseSchema from '@ioc:Adonis/Lucid/Schema';
+import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class extends BaseSchema {
-  protected tableName = 'owners';
+export default class Owners extends BaseSchema {
+  protected tableName = 'owners'
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id');
-      table.string('name').notNullable();
-      table.string('phone_number').notNullable();
-      table.string('address').notNullable();
-      table.timestamp('created_at', { useTz: true });
-      table.timestamp('updated_at', { useTz: true });
-    });
+      table.increments('id') // ID auto incremental
+      table.integer('user_id').unsigned().references('users.id').onDelete('CASCADE') // Relación con Usuario
+      table.integer('driver_id').unsigned().references('drivers.id').onDelete('CASCADE') // Relación con Conductor
+      table.string('address').nullable() // Dirección (heredado de Driver)
+      table.timestamp('created_at').defaultTo(this.now()) // Fecha de creación
+      table.timestamp('updated_at').defaultTo(this.now()) // Fecha de última actualización
+    })
   }
 
   public async down() {
-    this.schema.dropTable(this.tableName);
+    this.schema.dropTable(this.tableName)
   }
 }
+

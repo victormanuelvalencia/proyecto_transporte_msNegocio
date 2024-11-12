@@ -1,28 +1,15 @@
-import { DateTime } from 'luxon';
-import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm';
+import Driver from './Driver';
+import { column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm';
 import OwnerVehicle from './OwnerVehicle';
 
-export default class Owner extends BaseModel {
-  @column({ isPrimary: true })
-  public id: number;
-
-  @column()
-  public name: string;
-
-  @column()
-  public phoneNumber: string;
-
+export default class Owner extends Driver {
   @column()
   public address: string;
-
-  @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime;
-
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime;
 
   @hasMany(() => OwnerVehicle, {
     foreignKey: 'owner_id',
   })
   public ownerVehicles: HasMany<typeof OwnerVehicle>;
+
+  // Otros métodos específicos de Owner si es necesario
 }

@@ -1,22 +1,17 @@
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import Owner from 'App/Models/Owner';
 import OwnerValidator from 'App/Validators/OwnerValidator';
+import DriversController from './DriversController';
 
-export default class OwnersController {
-    public async find({ request, params }: HttpContextContract) {
+export default class OwnersController extends DriversController {
+    public async find({ request, params, response, logger, profiler, routeKey, subdomains, inspect }: HttpContextContract) {
         if (params.id) {
-            let theOwner: Owner = await Owner.findOrFail(params.id);
+            const theOwner: Owner = await Owner.findOrFail(params.id);
             await theOwner.load('ownerVehicles');
             return theOwner;
         } else {
-            const data = request.all();
-            if ("page" in data && "per_page" in data) {
-                const page = request.input('page', 1);
-                const perPage = request.input('per_page', 20);
-                return await Owner.query().paginate(page, perPage);
-            } else {
-                return await Owner.query();
-            }
+            // Asegúrate de pasar el contexto completo, incluyendo inspect
+            return super.find({ request, params, response, logger, profiler, routeKey, subdomains, inspect });
         }
     }
 
@@ -30,10 +25,7 @@ export default class OwnersController {
     public async update({ params, request }: HttpContextContract) {
         const theOwner: Owner = await Owner.findOrFail(params.id);
         const body = request.body();
-        theOwner.name = body.name;
-        theOwner.phoneNumber = body.phoneNumber;
-        theOwner.address = body.address;
-
+        theOwner.merge(body);
         return await theOwner.save();
     }
 
@@ -43,4 +35,3 @@ export default class OwnersController {
         return await theOwner.delete();
     }
 }
-
