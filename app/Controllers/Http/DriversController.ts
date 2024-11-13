@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import Driver from 'App/Models/Driver';
 import UsersController from './UsersController';
+import DriverValidator from 'App/Validators/DriverValidator';
 
 export default class DriversController extends UsersController {
     // Utilizamos el contexto completo
@@ -20,6 +21,7 @@ export default class DriversController extends UsersController {
     }
 
     public async create({ request }: HttpContextContract) {
+        await request.validate(DriverValidator)
         const body = request.body();
         return await Driver.create(body);
     }

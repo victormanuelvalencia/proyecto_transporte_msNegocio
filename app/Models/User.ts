@@ -11,7 +11,7 @@ export default class User extends BaseModel {
   public email: string;
 
   @column()
-  public phoneNumber: string;
+  public phone_number: string;
 
   @column()
   public address: string;

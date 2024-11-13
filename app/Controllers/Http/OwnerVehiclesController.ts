@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import OwnerVehicle from 'App/Models/OwnerVehicle';
+import OwnerVehicleValidator from 'App/Validators/OwnerVehicleValidator';
 
 export default class OwnerVehiclesController {
     public async find({ params }: HttpContextContract) {
@@ -14,6 +15,7 @@ export default class OwnerVehiclesController {
     }
 
     public async create({ request }: HttpContextContract) {
+        await request.validate(OwnerVehicleValidator)
         const body = request.body();
         const theOwnerVehicle: OwnerVehicle = await OwnerVehicle.create(body);
         return theOwnerVehicle;
@@ -22,9 +24,9 @@ export default class OwnerVehiclesController {
     public async update({ params, request }: HttpContextContract) {
         const theOwnerVehicle: OwnerVehicle = await OwnerVehicle.findOrFail(params.id);
         const body = request.body();
-        theOwnerVehicle.ownerId = body.ownerId;
-        theOwnerVehicle.vehicleId = body.vehicleId;
-        theOwnerVehicle.ownershipDate = body.ownershipDate;
+        theOwnerVehicle.owner_id = body.owner_id;
+        theOwnerVehicle.vehicle_id = body.vehicle_id;
+        theOwnerVehicle.ownership_date = body.ownership_date;
 
         return await theOwnerVehicle.save();
     }

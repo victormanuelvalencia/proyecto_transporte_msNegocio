@@ -10,7 +10,6 @@ export default class OwnersController extends DriversController {
             await theOwner.load('ownerVehicles');
             return theOwner;
         } else {
-            // Asegúrate de pasar el contexto completo, incluyendo inspect
             return super.find({ request, params, response, logger, profiler, routeKey, subdomains, inspect });
         }
     }

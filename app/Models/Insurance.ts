@@ -7,16 +7,16 @@ export default class Insurance extends BaseModel {
   public id: number;
 
   @column()
-  public policyNumber: string;
+  public policy_number: string;
 
   @column()
   public provider: string;
 
   @column()
-  public expirationDate: Date;
+  public expiration_date: Date;
 
   @column()
-  public vehicleId: number;
+  public vehicle_id: number;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
@@ -25,7 +25,7 @@ export default class Insurance extends BaseModel {
   public updatedAt: DateTime;
 
   @belongsTo(() => Vehicle, {
-    foreignKey: 'vehicleId',
+    foreignKey: 'vehicle_id',
   })
   public vehicle: BelongsTo<typeof Vehicle>;
 }

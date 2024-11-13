@@ -1,20 +1,17 @@
 import { DateTime } from 'luxon';
 import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm';
-import Owner from './Owner';
 import Vehicle from './Vehicle';
+import Driver from './Driver';
 
-export default class OwnerVehicle extends BaseModel {
+export default class DriverVehicle extends BaseModel {
   @column({ isPrimary: true })
   public id: number;
 
   @column()
-  public owner_id: number;
+  public driver_id: number;
 
   @column()
   public vehicle_id: number;
-
-  @column()
-  public ownership_date: Date;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
@@ -22,10 +19,10 @@ export default class OwnerVehicle extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime;
 
-  @belongsTo(() => Owner, {
-    foreignKey: 'owner_id',
+  @belongsTo(() => Driver, {
+    foreignKey: 'driver_id',
   })
-  public owner: BelongsTo<typeof Owner>;
+  public owner: BelongsTo<typeof Driver>;
 
   @belongsTo(() => Vehicle, {
     foreignKey: 'vehicle_id',

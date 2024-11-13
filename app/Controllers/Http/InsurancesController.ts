@@ -30,10 +30,10 @@ export default class InsurancesController {
     public async update({ params, request }: HttpContextContract) {
         const theInsurance: Insurance = await Insurance.findOrFail(params.id);
         const body = request.body();
-        theInsurance.policyNumber = body.policyNumber;
+        theInsurance.policy_number = body.policy_number;
         theInsurance.provider = body.provider;
-        theInsurance.expirationDate = body.expirationDate;
-        theInsurance.vehicleId = body.vehicleId;
+        theInsurance.expiration_date = body.expiration_date;
+        theInsurance.vehicle_id = body.vehicle_id;
 
         return await theInsurance.save();
     }
