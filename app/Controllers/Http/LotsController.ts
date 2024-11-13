@@ -5,7 +5,7 @@ export default class LotsController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theLot: Lot = await Lot.findOrFail(params.id)
-            //await theLot.load("producto")
+            //await theLot.load("product")
             return theLot;
         } else {
             const data = request.all()
@@ -29,10 +29,10 @@ export default class LotsController {
     public async update({ params, request }: HttpContextContract) {
         const theLot: Lot = await Lot.findOrFail(params.id);
         const body = request.body();
-        theLot.categoria = body.categoria;
-        theLot.productos = body.productos;
-        theLot.total_productos = body.total_productos;
-        theLot.total_peso = body.total_peso;
+        theLot.category = body.category;
+        theLot.products = body.products;
+        theLot.total_products = body.total_products;
+        theLot.total_weight = body.total_weight;
         return await theLot.save();
     }
 

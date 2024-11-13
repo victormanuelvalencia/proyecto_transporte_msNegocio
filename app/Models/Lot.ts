@@ -6,20 +6,20 @@ export default class Lot extends BaseModel {
   public id: number
 
   @column()
-  public categoria: string
+  public category: string
 
   @column({
-    serializeAs: 'productos',
+    serializeAs: 'products',
     prepare: (value: any) => JSON.stringify(value),
     consume: (value: any) => JSON.parse(value),
   })
-  public productos: string[]
+  public products: string[]
 
   @column()
-  public total_productos: number
+  public total_products: number
 
   @column()
-  public total_peso: number
+  public total_weight: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

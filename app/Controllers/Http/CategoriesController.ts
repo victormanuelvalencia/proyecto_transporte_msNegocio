@@ -5,7 +5,7 @@ export default class CategoryController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theCategory: Category = await Category.findOrFail(params.id)
-            //await theCategory.load("producto")
+            //await theCategory.load("product")
             return theCategory;
         } else {
             const data = request.all()
@@ -29,8 +29,8 @@ export default class CategoryController {
     public async update({ params, request }: HttpContextContract) {
         const theCategory: Category = await Category.findOrFail(params.id);
         const body = request.body();
-        theCategory.nombre = body.nombre;
-        theCategory.descripcion = body.descripcion;
+        theCategory.name = body.name;
+        theCategory.description = body.description;
         return await theCategory.save();
     }
 
