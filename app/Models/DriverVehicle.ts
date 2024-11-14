@@ -29,4 +29,3 @@ export default class DriverVehicle extends BaseModel {
   })
   public vehicle: BelongsTo<typeof Vehicle>;
 }
-

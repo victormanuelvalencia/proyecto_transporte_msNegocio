@@ -1,45 +1,40 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Shift from 'App/Models/Shift'
-import Driver from 'App/Models/Driver'
 import ShiftValidator from 'App/Validators/ShiftValidator'
 
 export default class ShiftsController {
-  // Crear un turno
-  public async create({ request, response }: HttpContextContract) {
-    const data = request.only(['driver_id', 'start_time', 'end_time', 'date'])
-
-    const driver = await Driver.find(data.driver_id)
-    if (!driver) {
-      return response.status(404).send('Driver not found')
-    }
-
-    const shift = await Shift.create(data)
-
-    return response.status(201).send(shift)
+  public async create({ request }: HttpContextContract) {
+    //await request.validate(ShiftValidator)
+    const body = request.body();
+    const theShift: Shift = await Shift.create(body);
+    return theShift;
   }
 
-  // Obtener los turnos de un conductor
-  public async find({ params, response, request }: HttpContextContract) {
-    await request.validate(ShiftValidator)
-    const driver = await Driver.find(params.id)
-    if (!driver) {
-      return response.status(404).send('Driver not found')
-    }
-
-    const shifts = await driver.related('shifts').query()
-
-    return response.status(200).send(shifts)
+  public async find({ params, request }: HttpContextContract) {
+    if (params.id) {
+      return await Shift.query().firstOrFail();
+    } else {
+        const data = request.all();
+        if ('page' in data && 'per_page' in data) {
+          const page = request.input('page', 1);
+          const perPage = request.input('per_page', 20);
+          return await Shift.query().paginate(page, perPage);
+        } else {
+          return await Shift.query();
+        }
+      }
   }
 
-  // Eliminar un turno
   public async delete({ params, response }: HttpContextContract) {
-    const shift = await Shift.find(params.id)
-    if (!shift) {
-      return response.status(404).send('Shift not found')
-    }
+    const shift = await Shift.findOrFail(params.id);
+    response.status(204);
+    return await shift.delete();
+  }
 
-    await shift.delete()
-
-    return response.status(200).send('Shift deleted successfully')
+  public async update({ params, request }: HttpContextContract) {
+    const shift = await Shift.findOrFail(params.id);
+    const body = request.body();
+    shift.merge(body);
+    return await shift.save();
   }
 }

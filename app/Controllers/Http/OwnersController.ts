@@ -3,7 +3,7 @@ import Owner from 'App/Models/Owner';
 import OwnerValidator from 'App/Validators/OwnerValidator';
 import DriversController from './DriversController';
 
-export default class OwnersController extends DriversController {
+export default class OwnersController {
     public async find({ request, params, response, logger, profiler, routeKey, subdomains, inspect }: HttpContextContract) {
         if (params.id) {
             const theOwner: Owner = await Owner.findOrFail(params.id);

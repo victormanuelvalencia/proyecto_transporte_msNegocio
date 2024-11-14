@@ -8,8 +8,8 @@ export default class extends BaseSchema {
       table.increments('id'); // Identificador único
       table.string('name').notNullable();
       table.string('email').unique().notNullable();
-      table.string('phone_number').nullable(); // Atributo opcional
-      table.string('address').nullable(); // Atributo opcional
+      table.string('password').nullable();
+      table.string('user_type').notNullable();
       table.timestamp('created_at', { useTz: true });
       table.timestamp('updated_at', { useTz: true });
     });
