@@ -1,16 +1,26 @@
 import Shift from './Shift';
 import User from './User';
-import { column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm';
+import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm';
 
-export default class Driver extends User {
+export default class Driver extends BaseModel {
+  @column({ isPrimary: true })
+  public id: number;
+
   @column()
   public license_number: string; // Atributo específico para conductores
 
-  // Métodos específicos para conductores si es necesario
+  @column()
+  public user_id: number // Clave foránea de la relación con 'users'
 
+  // Relación con 'users'
+  @belongsTo(() => User, { // 'driver' pertenece a 'user'
+    foreignKey: 'user_id', // Establece la clave foránea en la tabla 'users'
+  })
+  public user: BelongsTo<typeof User>;
+  
   // Relación con turnos (uno a muchos)
-  @hasMany(() => Shift, {
+  /*@hasMany(() => Shift, {
     foreignKey: 'shift_id'
   })
-  public shifts: HasMany<typeof Shift>
+  public shifts: HasMany<typeof Shift>*/
 }
