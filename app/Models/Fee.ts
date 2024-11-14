@@ -5,6 +5,15 @@ export default class Fee extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column()
+  public contract_id: number
+
+  @column()
+  public amount: number
+
+  @column()
+  public due_date: Date
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

@@ -29,8 +29,9 @@ export default class FeeController {
     public async update({ params, request }: HttpContextContract) {
         const theFee: Fee = await Fee.findOrFail(params.id);
         const body = request.body();
-        //theFee.name = body.name;
-        //theFee.description = body.description;
+        theFee.contract_id = body.contract_id;
+        theFee.amount = body.amount;
+        theFee.due_date = body.due_date;
         return await theFee.save();
     }
 

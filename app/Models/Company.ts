@@ -5,6 +5,15 @@ export default class Company extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column()
+  public name: string
+
+  @column()
+  public nit: string
+
+  @column()
+  public contact: string
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

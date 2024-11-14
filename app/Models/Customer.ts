@@ -5,6 +5,18 @@ export default class Customer extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column()
+  public name: string
+
+  @column()
+  public email: string
+
+  @column()
+  public phone: string
+
+  @column()
+  public address: string
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

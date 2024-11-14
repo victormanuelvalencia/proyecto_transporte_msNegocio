@@ -29,8 +29,10 @@ export default class NaturalPersonController {
     public async update({ params, request }: HttpContextContract) {
         const theNaturalPerson: NaturalPerson = await NaturalPerson.findOrFail(params.id);
         const body = request.body();
-        //theNaturalPerson.name = body.name;
-        //theNaturalPerson.description = body.description;
+        theNaturalPerson.first_name = body.first_name;
+        theNaturalPerson.last_name = body.last_name;
+        theNaturalPerson.document_type = body.document_type;
+        theNaturalPerson.document_number = body.document_number;
         return await theNaturalPerson.save();
     }
 

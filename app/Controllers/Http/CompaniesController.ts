@@ -29,8 +29,9 @@ export default class CompanyController {
     public async update({ params, request }: HttpContextContract) {
         const theCompany: Company = await Company.findOrFail(params.id);
         const body = request.body();
-        //theCompany.name = body.name;
-        //theCompany.description = body.description;
+        theCompany.name = body.name;
+        theCompany.nit = body.nit;
+        theCompany.contact = body.contact
         return await theCompany.save();
     }
 

@@ -29,8 +29,8 @@ export default class FactureController {
     public async update({ params, request }: HttpContextContract) {
         const theFacture: Facture = await Facture.findOrFail(params.id);
         const body = request.body();
-        //theFacture.name = body.name;
-        //theFacture.description = body.description;
+        theFacture.amount = body.amount;
+        theFacture.date = body.date;
         return await theFacture.save();
     }
 

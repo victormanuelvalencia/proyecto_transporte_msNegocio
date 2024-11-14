@@ -6,14 +6,14 @@ export default class Lot extends BaseModel {
   public id: number
 
   @column()
-  public category: string
+  public category_id: Number
 
   @column({
     serializeAs: 'products',
     prepare: (value: any) => JSON.stringify(value),
     consume: (value: any) => JSON.parse(value),
   })
-  public products: string[]
+  public product: string[]
 
   @column()
   public total_products: number
