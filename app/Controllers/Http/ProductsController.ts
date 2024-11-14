@@ -5,7 +5,7 @@ export default class ProductsController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theProduct: Product = await Product.findOrFail(params.id)
-            //await theProduct.load("categoria")
+            //await theProduct.load("category")
             return theProduct;
         } else {
             const data = request.all()
@@ -29,10 +29,10 @@ export default class ProductsController {
     public async update({ params, request }: HttpContextContract) {
         const theProduct: Product = await Product.findOrFail(params.id);
         const body = request.body();
-        theProduct.nombre = body.nombre;
-        theProduct.descripcion = body.descripcion;
-        theProduct.precio = body.precio;
-        theProduct.peso = body.peso;
+        theProduct.name = body.name;
+        theProduct.description = body.description;
+        theProduct.price = body.price;
+        theProduct.weight = body.weight;
         return await theProduct.save();
     }
 
