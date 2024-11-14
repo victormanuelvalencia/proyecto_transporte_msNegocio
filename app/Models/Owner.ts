@@ -1,8 +1,8 @@
 import Driver from './Driver';
-import { HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm';
+import { BaseModel, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm';
 import OwnerVehicle from './OwnerVehicle';
 
-export default class Owner extends Driver {
+export default class Owner extends BaseModel {
   
   @hasMany(() => OwnerVehicle, {
     foreignKey: 'owner_id',

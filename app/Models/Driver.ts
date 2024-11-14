@@ -1,3 +1,4 @@
+import DriverVehicle from './DriverVehicle';
 import Shift from './Shift';
 import User from './User';
 import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm';
@@ -19,8 +20,14 @@ export default class Driver extends BaseModel {
   public user: BelongsTo<typeof User>;
   
   // Relación con turnos (uno a muchos)
-  /*@hasMany(() => Shift, {
-    foreignKey: 'shift_id'
+  @hasMany(() => Shift, {
+    foreignKey: 'driver_id'
   })
-  public shifts: HasMany<typeof Shift>*/
+  public shifts: HasMany<typeof Shift>
+
+  @hasMany(() => DriverVehicle, {
+    foreignKey: 'driver_id'
+  })
+  public driverVehicle: HasMany<typeof DriverVehicle>
+
 }

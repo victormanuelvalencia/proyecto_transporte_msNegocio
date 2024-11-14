@@ -13,7 +13,7 @@ export default class UsersController {
         const perPage = request.input('per_page', 20);
         return await User.query().preload('driver').paginate(page, perPage);
       } else {
-        return await User.query().preload('driver').firstOrFail();
+        return await User.query().preload('driver').exec();
       }
     }
   }
