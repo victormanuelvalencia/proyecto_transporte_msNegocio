@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Operation from './Operation'
 import OwnerVehicle from './OwnerVehicle'
+import Insurance from './Insurance'
 
 export default class Vehicle extends BaseModel {
   @column({ isPrimary: true })
@@ -15,8 +16,6 @@ export default class Vehicle extends BaseModel {
 
   @column()
   public max_load_capacity: number
-
-  @column()
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -34,4 +33,9 @@ export default class Vehicle extends BaseModel {
     foreignKey: 'vehicle_id', // Establece la clave foránea en la tabla OwnerVehicle
   })
   public ownerVehicles: HasMany<typeof OwnerVehicle>;
+
+  @hasMany(() => Insurance, {
+    foreignKey: 'vehicle_id', // Establece la clave foránea en la tabla OwnerVehicle
+  })
+  public insurance: HasMany<typeof Insurance>;
 }
