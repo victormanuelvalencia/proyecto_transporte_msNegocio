@@ -18,9 +18,7 @@ export default class VehiclesController {
             } else {
                 return await Vehicle.query()
             }
-
         }
-
     }
 
     //Es una funcion asincrona, que hace que se pueda hacer el create en paralelo 
@@ -38,16 +36,13 @@ export default class VehiclesController {
     public async update({ params, request }: HttpContextContract) {
         const theVehicle: Vehicle = await Vehicle.findOrFail(params.id);
         const body = request.body();
-        theVehicle.license_plate = body.license_plate;
-        theVehicle.type_vehicle = body.type_vehicle;
-        theVehicle.max_load_capacity = body.max_load_capacity;
-
+        theVehicle.merge(body);
         return await theVehicle.save();
     }
 
     public async delete({ params, response }: HttpContextContract) {
         const theVehicle: Vehicle = await Vehicle.findOrFail(params.id);
-            response.status(204);
-            return await theVehicle.delete();
+        response.status(204).json({ message: 'Vehicle eliminado correctamente' });
+        return await theVehicle.delete();
     }
 }

@@ -6,7 +6,7 @@ export default class Lot extends BaseModel {
   public id: number
 
   @column()
-  public category_id: Number
+  public category_id: number
 
   @column({
     serializeAs: 'products',

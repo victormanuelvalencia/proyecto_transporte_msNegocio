@@ -10,20 +10,25 @@ export default class UserValidator {
       rules.regex(/^[A-Za-z\s]+$/),
       rules.maxLength(255),
     ]),
-    phone_number: schema.string({}, [
-      rules.mobile(),
-      rules.maxLength(15),
+    // Campo 'email' con validación de formato y longitud
+    email: schema.string({}, [
+      rules.email(),
+      rules.maxLength(255),
     ]),
-    address: schema.string({}, [
-      rules.maxLength(500),
+    password: schema.string({}, [
+      rules.minLength(8),
     ]),
+    user_type: schema.enum(['owner', 'driver', 'naturalPerson', 'administrator'] as const),
   });
 
   public messages: CustomMessages = {
     'name.required': 'El campo nombre es obligatorio',
     'name.regex': 'El nombre solo puede contener letras y espacios',
-    'phone_number.required': 'El número de teléfono es obligatorio',
-    'phone_number.mobile': 'El número de teléfono debe ser un número de móvil válido',
-    'address.required': 'La dirección es obligatoria',
+    'email.required': 'El campo correo electrónico es obligatorio',
+    'email.email': 'El correo electrónico debe ser una dirección válida',
+    'password.required': 'El campo contraseña es obligatorio',
+    'password.minLength': 'La contraseña debe tener al menos 8 caracteres',
+    'user_type.required': 'El campo tipo de usuario es obligatorio',
+    'user_type.enum': 'El tipo de usuario debe ser uno de los siguientes: owner, driver, naturalPerson o administrator',
   };
 }

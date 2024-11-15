@@ -14,7 +14,7 @@ export default class ShiftValidator {
     date: schema.string({}, [
       rules.regex(/^\d{4}-\d{2}-\d{2}$/), // Verifica que el formato sea YYYY-MM-DD
     ]),
-  })
+  });
 
   public messages = {
     'driver_id.required': 'El campo driver_id es obligatorio.',
@@ -25,5 +25,5 @@ export default class ShiftValidator {
     'end_time.regex': 'El campo end_time debe tener el formato HH:mm.',
     'date.required': 'El campo date es obligatorio.',
     'date.regex': 'El campo date debe tener el formato YYYY-MM-DD.',
-  }
+  };
 }

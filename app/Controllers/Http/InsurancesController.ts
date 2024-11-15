@@ -21,7 +21,7 @@ export default class InsurancesController {
     }
 
     public async create({ request }: HttpContextContract) {
-        //await request.validate(InsuranceValidator);
+        await request.validate(InsuranceValidator);
         const body = request.body();
         const theInsurance: Insurance = await Insurance.create(body);
         return theInsurance;
@@ -29,6 +29,7 @@ export default class InsurancesController {
 
     public async update({ params, request }: HttpContextContract) {
         const theInsurance: Insurance = await Insurance.findOrFail(params.id);
+        await request.validate(InsuranceValidator);
         const body = request.body();
         theInsurance.merge(body);
         return await theInsurance.save();

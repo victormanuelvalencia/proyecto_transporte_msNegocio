@@ -6,17 +6,17 @@ export default class DriverVehicleValidator {
 
   public schema = schema.create({
     driver_id: schema.number([
-      rules.exists({ table: 'owners', column: 'id' }),
+      rules.exists({ table: 'drivers', column: 'id' }),
     ]),
     vehicle_id: schema.number([
       rules.exists({ table: 'vehicles', column: 'id' }),
     ]),
-  })
+  });
 
   public messages: CustomMessages = {
     'owner_id.required': 'El ID del dueño es obligatorio',
     'owner_id.exists': 'El ID del dueño especificado no existe',
     'vehicle_id.required': 'El ID del vehículo es obligatorio',
     'vehicle_id.exists': 'El ID del vehículo especificado no existe',
-  }
+  };
 }  
