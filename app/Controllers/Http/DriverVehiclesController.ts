@@ -22,7 +22,7 @@ export default class DriverVehiclesController {
     }
 
     public async create({ request }: HttpContextContract) {
-        //await request.validate(DriverVehicleValidator)
+        await request.validate(DriverVehicleValidator)
         const body = request.body();
         const theDriverVehicle: DriverVehicle = await DriverVehicle.create(body);
         return theDriverVehicle;

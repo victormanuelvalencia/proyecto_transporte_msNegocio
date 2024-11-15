@@ -39,7 +39,11 @@ export default class OperationsController {
     public async update({ params, request }: HttpContextContract) {
         const theOperation: Operation = await Operation.findOrFail(params.id);
         const body = request.body();
-        theOperation.merge(body);
+        theOperation.date = body.date;
+        theOperation.operation_type = body.operation_type;
+        theOperation.state = body.state;
+        theOperation.municipality_id = body.municipality_id;
+        theOperation.vehicle_id = body.vehicle_id;
         return await theOperation.save();
     }
 
