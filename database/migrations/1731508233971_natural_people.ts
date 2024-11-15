@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.string('last_name', 255).notNullable()
       table.string('document_type', 255).notNullable()
       table.string('document_number', 255).notNullable()
-      table.integer('company_id').unsigned().references('id').inTable('companies')
+      table.integer('company_id').unsigned().references('id').inTable('companies').onDelete('CASCADE')
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })
