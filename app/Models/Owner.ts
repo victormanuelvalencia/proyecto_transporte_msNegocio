@@ -19,7 +19,7 @@ export default class Owner extends BaseModel {
   @hasMany(() => OwnerVehicle, {
     foreignKey: 'owner_id',
   })
-  public ownerVehicles: HasMany<typeof OwnerVehicle>;
+  public ownerVehicle: HasMany<typeof OwnerVehicle>;
 
   // Relación con 'users'
   @belongsTo(() => User, { // 'driver' pertenece a 'user'

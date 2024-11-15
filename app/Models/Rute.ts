@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import DirListOrder from './DirListOrder'
+import Lot from './Lot'
 
 export default class Rute extends BaseModel {
   @column({ isPrimary: true })
@@ -26,4 +27,10 @@ export default class Rute extends BaseModel {
     foreignKey: 'rute_id'
   })
   public dirListOrder: HasMany<typeof DirListOrder>
+
+  @hasMany(() => Lot, {
+    //nombre de la clave foranea que permite la relacion
+    foreignKey: 'rute_id'
+  })
+  public lot: HasMany<typeof Lot>
 }

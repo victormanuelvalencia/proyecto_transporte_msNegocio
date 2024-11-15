@@ -33,7 +33,7 @@ export default class Vehicle extends BaseModel {
   @hasMany(() => OwnerVehicle, {
     foreignKey: 'vehicle_id', // Establece la clave foránea en la tabla OwnerVehicle
   })
-  public ownerVehicles: HasMany<typeof OwnerVehicle>;
+  public ownerVehicle: HasMany<typeof OwnerVehicle>;
 
   @hasMany(() => Insurance, {
     foreignKey: 'vehicle_id', // Establece la clave foránea en la tabla OwnerVehicle
@@ -43,10 +43,4 @@ export default class Vehicle extends BaseModel {
     foreignKey: 'vehicle_id'
   })
   public driverVehicle: HasMany<typeof DriverVehicle>
-
-  @hasMany(() => Insurance, {
-    foreignKey: 'vehicle_id'
-  })
-  public insurances: HasMany<typeof Insurance>
-
 }

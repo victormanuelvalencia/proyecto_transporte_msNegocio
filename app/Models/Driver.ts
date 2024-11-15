@@ -28,7 +28,7 @@ export default class Driver extends BaseModel {
   @hasMany(() => Shift, {
     foreignKey: 'driver_id'
   })
-  public shifts: HasMany<typeof Shift>
+  public shift: HasMany<typeof Shift>
 
   @hasMany(() => Expense, {
     //nombre de la clave foranea que permite la relacion
