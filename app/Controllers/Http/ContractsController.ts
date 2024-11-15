@@ -29,8 +29,6 @@ export default class ContractController {
     public async update({ params, request }: HttpContextContract) {
         const theContract: Contract = await Contract.findOrFail(params.id);
         const body = request.body();
-        theContract.customer_id = body.customer_id;
-        theContract.vehicle_id = body.vehicle_id;
         theContract.start_date = body.start_date;
         theContract.end_date = body.end_date;
         theContract.total_amount = body.total_amount;

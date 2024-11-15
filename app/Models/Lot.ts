@@ -13,7 +13,7 @@ export default class Lot extends BaseModel {
     prepare: (value: any) => JSON.stringify(value),
     consume: (value: any) => JSON.parse(value),
   })
-  public product: string[]
+  public products: string[]
 
   @column()
   public total_products: number
@@ -31,7 +31,7 @@ export default class Lot extends BaseModel {
     //nombre de la clave foranea que permite la relacion
     foreignKey: 'lot_id'
   })
-  public seats: HasMany<typeof Product>
+  public product: HasMany<typeof Product>
 
   @belongsTo(() => DirListOrder, {
     //nombre de la clave foranea que permite la relacion

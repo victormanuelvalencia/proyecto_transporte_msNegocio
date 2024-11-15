@@ -11,6 +11,7 @@ export default class extends BaseSchema {
       table.integer('price').notNullable()
       table.integer('weight').notNullable()
       table.integer('lot_id').unsigned().references('lots.id').onDelete('CASCADE')
+      table.integer('customer_id').unsigned().references('customers.id').onDelete('CASCADE')
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })
