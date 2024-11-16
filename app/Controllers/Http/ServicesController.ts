@@ -40,6 +40,7 @@ export default class ServicesController {
         theService.service_name = body.service_name;
         theService.location = body.location;
         theService.description = body.description;
+        theService.total_ammount = body.total_ammount;
 
         return await theService.save();
     }

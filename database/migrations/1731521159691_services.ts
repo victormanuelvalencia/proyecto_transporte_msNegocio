@@ -9,7 +9,7 @@ export default class extends BaseSchema {
       table.string('service_name')
       table.string('location')
       table.string('description')
-    
+      table.double('total_ammount')
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })

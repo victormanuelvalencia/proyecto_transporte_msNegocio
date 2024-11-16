@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import Owner from 'App/Models/Owner';
 import OwnerValidator from 'App/Validators/OwnerValidator';
-import DriversController from './DriversController';
+
 
 export default class OwnersController {
     public async find({ request, params }: HttpContextContract) {

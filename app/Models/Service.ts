@@ -14,6 +14,10 @@ export default class Service extends BaseModel {
 
   @column()
   public description:string
+
+  @column()
+  public total_ammount:number 
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
