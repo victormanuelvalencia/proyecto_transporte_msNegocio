@@ -9,15 +9,15 @@ export default class DriversController {
             return await Driver.query()
                 .where('id', params.id)
                 .preload('owner')
-                .preload('shifts').firstOrFail();
+                .preload('shift').firstOrFail();
         } else {
             const data = request.all();
             if ('page' in data && 'per_page' in data) {
                 const page = request.input('page', 1);
                 const perPage = request.input('per_page', 20);
-                return await Driver.query().preload('owner').preload('shifts').paginate(page, perPage);
+                return await Driver.query().preload('owner').preload('shift').paginate(page, perPage);
             } else {
-                return await Driver.query().preload('owner').preload('shifts');
+                return await Driver.query().preload('owner').preload('shift');
             }
         }
     }

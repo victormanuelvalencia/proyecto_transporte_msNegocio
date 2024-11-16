@@ -29,7 +29,7 @@ export default class Customer extends BaseModel {
     //nombre de la clave foranea que permite la relacion
     foreignKey: 'customer_id'
   })
-  public fee: HasMany<typeof Contract>
+  public contract: HasMany<typeof Contract>
 
   @hasMany(() => Product, {
     //nombre de la clave foranea que permite la relacion

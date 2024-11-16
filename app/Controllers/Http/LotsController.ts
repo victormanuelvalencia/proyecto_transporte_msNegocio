@@ -5,7 +5,9 @@ export default class LotsController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theLot: Lot = await Lot.findOrFail(params.id)
-            //await theLot.load("product")
+            await theLot.load("product")
+            await theLot.load("rute")
+            await theLot.load("dirListOrder")
             return theLot;
         } else {
             const data = request.all()

@@ -5,7 +5,9 @@ export default class ProductsController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theProduct: Product = await Product.findOrFail(params.id)
-            //await theProduct.load("category")
+            await theProduct.load("categoryProduct")
+            await theProduct.load("lot")
+            await theProduct.load("customer")
             return theProduct;
         } else {
             const data = request.all()

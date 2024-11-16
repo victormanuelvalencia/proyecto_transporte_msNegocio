@@ -5,7 +5,7 @@ import OwnerValidator from 'App/Validators/OwnerValidator';
 export default class OwnersController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
-            return await Owner.query().where('id', params.id).preload('ownerVehicles').firstOrFail();
+            return await Owner.query().where('id', params.id).preload('ownerVehicle').firstOrFail();
         } else {
             const data = request.all()
             if ("page" in data && "per_page" in data) { //aqui es una forma de listar por paginas distintos teatros
