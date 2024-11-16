@@ -1,5 +1,6 @@
 import { BaseModel, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm';
 import Driver from './Driver';
+import Owner from './Owner';
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -19,7 +20,13 @@ export default class User extends BaseModel {
   
   // Relación con 'drivers'
   @hasOne(() => Driver, { // 'driver' tiene un 'user'
-    foreignKey: 'user_id', // Establece la clave foránea en la tabla 'driver'
+    foreignKey: 'user_id', // Establece la clave foránea en la tabla 'drivers'
   })
   public driver: HasOne<typeof Driver>;
+
+  // Relación con 'owners'
+  @hasOne(() => Owner, { // 'owner' tiene un 'user'
+    foreignKey: 'user_id', // Establece la clave foránea en la tabla 'owners'
+  })
+  public owner: HasOne<typeof Owner>;
 }

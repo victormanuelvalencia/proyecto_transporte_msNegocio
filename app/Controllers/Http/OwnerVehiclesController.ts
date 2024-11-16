@@ -15,7 +15,7 @@ export default class OwnerVehiclesController {
     }
 
     public async create({ request }: HttpContextContract) {
-        await request.validate(OwnerVehicleValidator)
+        await request.validate(OwnerVehicleValidator);
         const body = request.body();
         const theOwnerVehicle: OwnerVehicle = await OwnerVehicle.create(body);
         return theOwnerVehicle;
@@ -23,6 +23,7 @@ export default class OwnerVehiclesController {
 
     public async update({ params, request }: HttpContextContract) {
         const theOwnerVehicle: OwnerVehicle = await OwnerVehicle.findOrFail(params.id);
+        await request.validate(OwnerVehicleValidator);
         const body = request.body();
         theOwnerVehicle.owner_id = body.owner_id;
         theOwnerVehicle.vehicle_id = body.vehicle_id;
@@ -33,7 +34,7 @@ export default class OwnerVehiclesController {
 
     public async delete({ params, response }: HttpContextContract) {
         const theOwnerVehicle: OwnerVehicle = await OwnerVehicle.findOrFail(params.id);
-        response.status(204);
+        response.status(204).json({ message: 'OwnerVehicle eliminado correctamente' });;
         return await theOwnerVehicle.delete();
     }
 }

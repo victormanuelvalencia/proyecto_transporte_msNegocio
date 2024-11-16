@@ -22,7 +22,7 @@ export default class DriverVehiclesController {
     }
 
     public async create({ request }: HttpContextContract) {
-        await request.validate(DriverVehicleValidator)
+        await request.validate(DriverVehicleValidator);
         const body = request.body();
         const theDriverVehicle: DriverVehicle = await DriverVehicle.create(body);
         return theDriverVehicle;
@@ -30,6 +30,7 @@ export default class DriverVehiclesController {
 
     public async update({ params, request }: HttpContextContract) {
         const theOwnerVehicle: DriverVehicle = await DriverVehicle.findOrFail(params.id);
+        await request.validate(DriverVehicleValidator);
         const body = request.body();
         theOwnerVehicle.merge(body);
         return await theOwnerVehicle.save();
@@ -37,7 +38,7 @@ export default class DriverVehiclesController {
 
     public async delete({ params, response }: HttpContextContract) {
         const theDriverVehicle: DriverVehicle = await DriverVehicle.findOrFail(params.id);
-        response.status(204);
+        response.status(204).json({ message: 'DriverVehicle eliminado correctamente' });
         return await theDriverVehicle.delete();
     }
 }

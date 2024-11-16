@@ -5,7 +5,8 @@ export default class FeeController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theFee: Fee = await Fee.findOrFail(params.id)
-            //await theFee.load("product")
+            await theFee.load("contract");
+            await theFee.load("facture");
             return theFee;
         } else {
             const data = request.all()

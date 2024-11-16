@@ -4,6 +4,7 @@ import Operation from './Operation'
 import OwnerVehicle from './OwnerVehicle'
 import DriverVehicle from './DriverVehicle'
 import Insurance from './Insurance'
+import Rute from './Rute'
 
 export default class Vehicle extends BaseModel {
   @column({ isPrimary: true })
@@ -33,20 +34,21 @@ export default class Vehicle extends BaseModel {
   @hasMany(() => OwnerVehicle, {
     foreignKey: 'vehicle_id', // Establece la clave foránea en la tabla OwnerVehicle
   })
-  public ownerVehicles: HasMany<typeof OwnerVehicle>;
+  public ownerVehicle: HasMany<typeof OwnerVehicle>;
 
   @hasMany(() => Insurance, {
     foreignKey: 'vehicle_id', // Establece la clave foránea en la tabla OwnerVehicle
   })
   public insurance: HasMany<typeof Insurance>;
+
   @hasMany(() => DriverVehicle, {
     foreignKey: 'vehicle_id'
   })
   public driverVehicle: HasMany<typeof DriverVehicle>
 
-  @hasMany(() => Insurance, {
+  @hasMany(() => Rute, {
+    //nombre de la clave foranea que permite la relacion
     foreignKey: 'vehicle_id'
   })
-  public insurances: HasMany<typeof Insurance>
-
+  public rute: HasMany<typeof Rute>
 }

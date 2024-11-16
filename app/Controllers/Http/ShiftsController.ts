@@ -4,7 +4,7 @@ import ShiftValidator from 'App/Validators/ShiftValidator'
 
 export default class ShiftsController {
   public async create({ request }: HttpContextContract) {
-    //await request.validate(ShiftValidator)
+    await request.validate(ShiftValidator);
     const body = request.body();
     const theShift: Shift = await Shift.create(body);
     return theShift;
@@ -27,12 +27,13 @@ export default class ShiftsController {
 
   public async delete({ params, response }: HttpContextContract) {
     const shift = await Shift.findOrFail(params.id);
-    response.status(204);
+    response.status(204).json({ message: 'Shift eliminado correctamente' });
     return await shift.delete();
   }
 
   public async update({ params, request }: HttpContextContract) {
     const shift = await Shift.findOrFail(params.id);
+    await request.validate(ShiftValidator);
     const body = request.body();
     shift.merge(body);
     return await shift.save();

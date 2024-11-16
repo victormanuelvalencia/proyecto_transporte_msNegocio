@@ -1,13 +1,12 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import Owner from 'App/Models/Owner';
 import OwnerValidator from 'App/Validators/OwnerValidator';
-
+import DriversController from './DriversController';
 
 export default class OwnersController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theOwner: Owner = await Owner.findOrFail(params.id)
-            await theOwner.load('ownerVehicles')
 
 
             return theOwner;
@@ -28,7 +27,7 @@ export default class OwnersController {
     //Es una funcion asincrona, que hace que se pueda hacer el create en paralelo 
     //con otras peticiones de manera simultanea
     public async create({ request }: HttpContextContract) {
-        await request.validate(OwnerValidator)
+        await request.validate(OwnerValidator);
         const body = request.body(); //La request es toda la carta, se lee el contenido y queda en el body
         const theOwner: Owner = await Owner.create(body); //Esto le pide que espere 
         //El await es siempre para hacer consultas en bases de datos 
@@ -39,6 +38,7 @@ export default class OwnersController {
 
     public async update({ params, request }: HttpContextContract) {
         const theOwner: Owner = await Owner.findOrFail(params.id);
+        await request.validate(OwnerValidator);
         const body = request.body();
         theOwner.merge(body);
         return await theOwner.save();
@@ -46,7 +46,7 @@ export default class OwnersController {
 
     public async delete({ params, response }: HttpContextContract) {
         const theOwner: Owner = await Owner.findOrFail(params.id);
-            response.status(204);
-            return await theOwner.delete();
+        response.status(204).json({ message: 'Owner eliminado correctamente' });
+        return await theOwner.delete();
     }
 }

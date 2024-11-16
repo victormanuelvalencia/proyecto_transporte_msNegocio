@@ -5,7 +5,8 @@ export default class FactureController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theFacture: Facture = await Facture.findOrFail(params.id)
-            //await theFacture.load("product")
+            await theFacture.load("expense")
+            await theFacture.load("fee")
             return theFacture;
         } else {
             const data = request.all()

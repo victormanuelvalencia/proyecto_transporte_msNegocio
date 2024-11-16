@@ -8,6 +8,8 @@ export default class extends BaseSchema {
       table.increments('id')
       table.integer('amount').notNullable()
       table.date('date').notNullable()
+      table.integer('expense_id').unsigned().references('id').inTable('expenses').onDelete('CASCADE')
+      table.integer('fee_id').unsigned().references('id').inTable('fees').onDelete('CASCADE')
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })

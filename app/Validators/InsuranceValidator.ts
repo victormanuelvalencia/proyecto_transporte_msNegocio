@@ -17,14 +17,14 @@ export default class InsuranceValidator {
     vehicle_id: schema.number([
       rules.exists({ table: 'vehicles', column: 'id' }),
     ]),
-  })
+  });
 
   public messages: CustomMessages = {
     'policy_number.required': 'El número de póliza es obligatorio',
     'provider.required': 'El proveedor es obligatorio',
     'expiration_date.required': 'La fecha de vencimiento es obligatoria',
-    'expiration_date.date': 'La fecha de vencimiento debe ser una fecha válida en el formato yyyy-MM-dd',
+    'expiration_date.date': 'La fecha de vencimiento debe ser una fecha válida en el formato YYY-MM-DD',
     'vehicle_id.required': 'El ID del vehículo es obligatorio',
     'vehicle_id.exists': 'El ID del vehículo especificado no existe',
-  }
+  };
 }  

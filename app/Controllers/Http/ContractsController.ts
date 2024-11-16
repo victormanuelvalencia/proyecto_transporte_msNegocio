@@ -5,7 +5,9 @@ export default class ContractController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theContract: Contract = await Contract.findOrFail(params.id)
-            //await theContract.load("product")
+            await theContract.load("customer")
+            await theContract.load("rute")
+            await theContract.load("fee")
             return theContract;
         } else {
             const data = request.all()
@@ -29,8 +31,6 @@ export default class ContractController {
     public async update({ params, request }: HttpContextContract) {
         const theContract: Contract = await Contract.findOrFail(params.id);
         const body = request.body();
-        theContract.customer_id = body.customer_id;
-        theContract.vehicle_id = body.vehicle_id;
         theContract.start_date = body.start_date;
         theContract.end_date = body.end_date;
         theContract.total_amount = body.total_amount;
