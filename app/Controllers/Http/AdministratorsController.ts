@@ -1,46 +1,43 @@
 import { Exception } from "@adonisjs/core/build/standalone";
 import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
-import Driver from "App/Models/Driver";
+import Administrator from "App/Models/Administrator";
 import axios from "axios";
 import Env from "@ioc:Adonis/Core/Env";
-import DriverValidator from "App/Validators/DriverValidator";
+import AdministratorValidator from "App/Validators/AdministratorValidator";
 
-export default class DriversController {
+export default class AdministratorsController {
   public async find({ request, params }: HttpContextContract) {
      
     try {
       if (params.id) {
-        //Creamos una instancia de driver
-        let theDriver: Driver = await Driver.findOrFail(params.id);
+        //Creamos una instancia de administrator
+        let theAdministrator: Administrator = await Administrator.findOrFail(params.id);
         // llamamos al microservicio de seguridad en users
         const theUserResponse = await axios.get(
-          `${Env.get("MS_SECURITY")}/users/${theDriver.user_id}`,
+          `${Env.get("MS_SECURITY")}/users/${theAdministrator.user_id}`,
           {
             headers: { Authorization: request.headers().authorization || "" },
           }
         );
-         await theDriver.load('expense');
-         await theDriver.load('shift');
-         await theDriver.load('driverVehicle');
+         await theAdministrator.load('service');
+        
         if (!theUserResponse.data || Object.keys(theUserResponse.data).length === 0) {
           throw new Exception(
             "User not found",
             404
           );
         }
-        await theDriver.load('expense')
-        await theDriver.load('shift');
-        await theDriver.load('driverVehicle');
+        await theAdministrator.load('service')
 
-        return { driver: theDriver, user: theUserResponse.data };
+        return { administrator: theAdministrator, user: theUserResponse.data };
       } else {
         const data = request.all();
         if ("page" in data && "per_page" in data) {
           const page = request.input("page", 1);
           const perPage = request.input("per_page", 20);
-          return await Driver.query().paginate(page, perPage); //cuando hace la consulta se hace en ese rango de pagina
+          return await Administrator.query().paginate(page, perPage); //cuando hace la consulta se hace en ese rango de pagina
         } else {
-          return await Driver.query(); //es para que espere a la base de datos
+          return await Administrator.query(); //es para que espere a la base de datos
         }
       }
     } catch (error) {
@@ -53,7 +50,7 @@ export default class DriversController {
 
   public async create({ request, response }: HttpContextContract) {
     try {
-      // Validar datos usando el driverValidator
+      // Validar datos usando el administratorValidator
       const body = request.body();
 
       // Llamada al microservicio de usuarios
@@ -71,10 +68,10 @@ export default class DriversController {
             "User not found, verify user_id",
         });
       }
-      // Crear el driver si la validación y la verificación de usuario son exitosas
-      await request.validate(DriverValidator);
-      const theDriver: Driver = await Driver.create(body);
-      return theDriver;
+      // Crear el administrator si la validación y la verificación de usuario son exitosas
+      await request.validate(AdministratorValidator);
+      const theAdministrator: Administrator = await Administrator.create(body);
+      return theAdministrator;
     } catch (error) {
       // Si el error es de validación, devolver los mensajes de error de forma legible
       if (error.messages) {
@@ -89,20 +86,21 @@ export default class DriversController {
   }
 
   public async update({ params, request }: HttpContextContract) {
-    const theDriver: Driver = await Driver.findOrFail(params.id); //busque el teatro con el identificador
+    const theAdministrator: Administrator = await Administrator.findOrFail(params.id); //busque el teatro con el identificador
     const body = request.body(); //leer lo que viene en la carta
 
-    theDriver.license_number = body.license_number;
-    theDriver.license_expiry = body.license_expiry;
-    theDriver.user_id = body.user_id;
+    theAdministrator.phone_number = body.phone_number;
+    theAdministrator.active = body.active;
+    theAdministrator.service_id = body.service_id;
+    theAdministrator.user_id = body.user_id;
 
 
-    return await theDriver.save(); //se confirma a la base de datos el cambio
+    return await theAdministrator.save(); //se confirma a la base de datos el cambio
   }
 
   public async delete({ params, response }: HttpContextContract) {
     //
-    const theTheater: Driver = await Driver.findOrFail(params.id); //buscarlo
+    const theTheater: Administrator = await Administrator.findOrFail(params.id); //buscarlo
     response.status(204);
 
     return await theTheater.delete(); //el teatro que se encontro, eliminelo

@@ -43,7 +43,7 @@ export default class ExpensesController {
         theExpense.description = body.description;
         theExpense.status = body.status;
         theExpense.service_id = body.service_id;
-        theExpense.driver_id = body.driver_id;
+        theExpense.driver_id = body.driver_idc;
 
 
         return await theExpense.save();

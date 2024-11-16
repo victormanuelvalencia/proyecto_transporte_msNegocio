@@ -1,9 +1,8 @@
 import Expense from './Expense';
 import DriverVehicle from './DriverVehicle';
 import Shift from './Shift';
-import User from './User';
-import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm';
-import Owner from './Owner';
+import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm';
+
 
 export default class Driver extends BaseModel {
   @column({ isPrimary: true })
@@ -11,19 +10,13 @@ export default class Driver extends BaseModel {
 
   @column()
   public license_number: string; // Atributo específico para conductores
-
-  @column()
-  public user_id: number // Clave foránea de la relación con 'users'
-
+  
   @column()
   public license_expiry: Date
 
-  // Relación con 'users'
-  @belongsTo(() => User, { // 'driver' pertenece a 'user'
-    foreignKey: 'user_id', // Establece la clave foránea en la tabla 'users'
-  })
-  public user: BelongsTo<typeof User>;
-  
+  @column()
+  public user_id:string // El user_id que vamos a necesitar para conectarlo con el user del ms de seguridad
+
   // Relación con turnos (uno a muchos)
   @hasMany(() => Shift, {
     foreignKey: 'driver_id'
@@ -40,11 +33,5 @@ export default class Driver extends BaseModel {
     foreignKey: 'driver_id'
   })
   public driverVehicle: HasMany<typeof DriverVehicle>
-
-  // Relación con 'owners'
-  @hasOne(() => Owner, { // 'owner' tiene un 'driver'
-    foreignKey: 'driver_id', // Establece la clave foránea en la tabla 'owners'
-  })
-  public owner: HasOne<typeof Owner>;
 
 }
