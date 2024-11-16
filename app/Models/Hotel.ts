@@ -1,13 +1,11 @@
-import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 
-export default class Hotel extends BaseModel {
-  @column({ isPrimary: true })
-  public id: number
+import { column } from '@ioc:Adonis/Lucid/Orm'
+import Service from './Service'
 
-  @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
+export default class Hotel extends Service {
+  @column()
+  public total_nights:number
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
+  @column()
+  public room_type:string
 }

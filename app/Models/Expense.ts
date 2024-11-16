@@ -3,6 +3,8 @@ import { BaseModel, BelongsTo, belongsTo, column, HasOne, hasOne } from '@ioc:Ad
 import Service from './Service'
 import Driver from './Driver'
 import Facture from './Facture'
+import Hotel from './Hotel'
+import Restaurant from './Restaurant'
 
 export default class Expense extends BaseModel {
   @column({ isPrimary: true })
@@ -34,7 +36,19 @@ export default class Expense extends BaseModel {
     foreignKey: 'service_id'
   })
   public service: BelongsTo<typeof Service>
+/*
+  @belongsTo(() => Hotel, {
+    //nombre de la clave foranea que permite la relacion
+    foreignKey: 'hotel_id'
+  })
+  public hotel: BelongsTo<typeof Hotel>
 
+  @belongsTo(() => Restaurant, {
+    //nombre de la clave foranea que permite la relacion
+    foreignKey: 'restaurant_id'
+  })
+  public restaurant: BelongsTo<typeof Restaurant>
+*/
   @belongsTo(() => Driver, {
     //nombre de la clave foranea que permite la relacion
     foreignKey: 'driver_id'

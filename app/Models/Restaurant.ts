@@ -1,13 +1,9 @@
-import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 
-export default class Restaurant extends BaseModel {
-  @column({ isPrimary: true })
-  public id: number
+import { column } from '@ioc:Adonis/Lucid/Orm'
+import Service from './Service'
 
-  @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
-
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
+export default class Restaurant extends Service {
+  
+  @column()
+  public meal_type:string
 }
