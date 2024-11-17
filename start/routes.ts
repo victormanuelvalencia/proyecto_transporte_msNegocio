@@ -25,7 +25,6 @@ import "./routes/naturalPeople"
 
 // Rutas vmv
 import "./routes/owners"
-import "./routes/users"
 import "./routes/drivers"
 import "./routes/insurances"
 import "./routes/ownerVehicles"
