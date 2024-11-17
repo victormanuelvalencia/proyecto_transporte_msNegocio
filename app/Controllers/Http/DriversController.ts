@@ -6,50 +6,50 @@ import Env from "@ioc:Adonis/Core/Env";
 import DriverValidator from "App/Validators/DriverValidator";
 
 export default class DriversController {
-  public async find({ request, params }: HttpContextContract) {
-     
-    try {
-      if (params.id) {
-        //Creamos una instancia de driver
-        let theDriver: Driver = await Driver.findOrFail(params.id);
-        // llamamos al microservicio de seguridad en users
-        const theUserResponse = await axios.get(
-          `${Env.get("MS_SECURITY")}/users/${theDriver.user_id}`,
-          {
-            headers: { Authorization: request.headers().authorization || "" },
-          }
-        );
-         await theDriver.load('expense');
-         await theDriver.load('shift');
-         await theDriver.load('driverVehicle');
-        if (!theUserResponse.data || Object.keys(theUserResponse.data).length === 0) {
-          throw new Exception(
-            "User not found",
-            404
-          );
-        }
-        await theDriver.load('expense')
-        await theDriver.load('shift');
-        await theDriver.load('driverVehicle');
+    public async find({ request, params }: HttpContextContract) {
+        
+        try {
+            if (params.id) {
+                //Creamos una instancia de driver
+                let theDriver: Driver = await Driver.findOrFail(params.id);
+                // llamamos al microservicio de seguridad en users
+                const theUserResponse = await axios.get(
+                `${Env.get("MS_SECURITY")}/users/${theDriver.user_id}`,
+                {
+                    headers: { Authorization: request.headers().authorization || "" },
+                }
+                );
+                await theDriver.load('expense');
+                await theDriver.load('shift');
+                await theDriver.load('driverVehicle');
+                if (!theUserResponse.data || Object.keys(theUserResponse.data).length === 0) {
+                throw new Exception(
+                    "User not found",
+                    404
+                );
+                }
+                await theDriver.load('expense')
+                await theDriver.load('shift');
+                await theDriver.load('driverVehicle');
 
-        return { driver: theDriver, user: theUserResponse.data };
-      } else {
-        const data = request.all();
-        if ("page" in data && "per_page" in data) {
-          const page = request.input("page", 1);
-          const perPage = request.input("per_page", 20);
-          return await Driver.query().paginate(page, perPage); //cuando hace la consulta se hace en ese rango de pagina
-        } else {
-          return await Driver.query(); //es para que espere a la base de datos
+                return { driver: theDriver, user: theUserResponse.data };
+            } else {
+                const data = request.all();
+                if ("page" in data && "per_page" in data) {
+                    const page = request.input("page", 1);
+                    const perPage = request.input("per_page", 20);
+                    return await Driver.query().paginate(page, perPage); //cuando hace la consulta se hace en ese rango de pagina
+                } else {
+                    return await Driver.query(); //es para que espere a la base de datos
+                }
+            }
+        } catch (error) {
+        throw new Exception(
+            error.message || "Error al procesar la solicitud",
+            error.status || 500
+        );
         }
-      }
-    } catch (error) {
-      throw new Exception(
-        error.message || "Error al procesar la solicitud",
-        error.status || 500
-      );
     }
-  }
 
   public async create({ request, response }: HttpContextContract) {
     try {
