@@ -7,6 +7,9 @@ export default class HotelsController {
         if (params.id) {
             let theHotel: Hotel = await Hotel.findOrFail(params.id)
             await theHotel.load('expense')
+            await theHotel.load('administrator')
+
+            //await theHotel.load('administrator')
             return theHotel;
         } else {
             const data = request.all()

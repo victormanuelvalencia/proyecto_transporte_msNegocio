@@ -19,7 +19,6 @@ export default class AdministratorsController {
             headers: { Authorization: request.headers().authorization || "" },
           }
         );
-         await theAdministrator.load('service');
         
         if (!theUserResponse.data || Object.keys(theUserResponse.data).length === 0) {
           throw new Exception(
@@ -27,7 +26,8 @@ export default class AdministratorsController {
             404
           );
         }
-        await theAdministrator.load('service')
+        await theAdministrator.load('hotel')
+        await theAdministrator.load('restaurant')
 
         return { administrator: theAdministrator, user: theUserResponse.data };
       } else {
@@ -91,8 +91,10 @@ export default class AdministratorsController {
 
     theAdministrator.phone_number = body.phone_number;
     theAdministrator.active = body.active;
-    theAdministrator.service_id = body.service_id;
+    theAdministrator.hotel_id = body.hotel_id
+    theAdministrator.restaurant_id = body.restaurant_id
     theAdministrator.user_id = body.user_id;
+
 
 
     return await theAdministrator.save(); //se confirma a la base de datos el cambio

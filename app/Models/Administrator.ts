@@ -1,6 +1,8 @@
 import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import Service from './Service'
+import Hotel from './Hotel'
+import Restaurant from './Restaurant'
 
 export default class Administrator extends BaseModel {
   @column({ isPrimary: true })
@@ -13,7 +15,10 @@ export default class Administrator extends BaseModel {
   public active:boolean
   
   @column()
-  public service_id:number
+  public hotel_id:number
+  
+  @column()
+  public restaurant_id:number
 
   @column()
   public user_id:string
@@ -24,10 +29,17 @@ export default class Administrator extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @belongsTo(() => Service, {
+  @belongsTo(() => Hotel, {
     //nombre de la clave foranea que permite la relacion
-    foreignKey: 'service_id'
+    foreignKey: 'hotel_id'
   })
-  public service: BelongsTo<typeof Service>
+  public hotel: BelongsTo<typeof Hotel>
+  
+  @belongsTo(() => Restaurant, {
+    //nombre de la clave foranea que permite la relacion
+    foreignKey: 'restaurant_id'
+  })
+  public restaurant: BelongsTo<typeof Restaurant>
  
+
 }

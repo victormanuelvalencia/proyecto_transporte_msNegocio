@@ -8,6 +8,7 @@ export default class RestaurantsController {
         if (params.id) {
             let theRestaurant: Restaurant = await Restaurant.findOrFail(params.id)
             await theRestaurant.load('expense')
+            await theRestaurant.load('administrator')
             return theRestaurant;
         } else {
             const data = request.all()

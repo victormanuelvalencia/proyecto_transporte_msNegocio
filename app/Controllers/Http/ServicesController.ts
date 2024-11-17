@@ -6,7 +6,8 @@ export default class ServicesController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theService: Service = await Service.findOrFail(params.id)
-            await theService.load('expense')
+            //await theService.load('administrator')
+
             return theService;
         } else {
             const data = request.all()
@@ -41,7 +42,6 @@ export default class ServicesController {
         theService.location = body.location;
         theService.description = body.description;
         theService.total_ammount = body.total_ammount;
-        theService.expense = body.expense
 
         return await theService.save();
     }
