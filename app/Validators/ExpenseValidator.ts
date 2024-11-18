@@ -4,7 +4,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 export default class ExpenseValidator {
   constructor(protected ctx: HttpContextContract) {}
 
-  public schema = schema.create({
+  public schema = schema.create({/*
     amount: schema.number([ 
       rules.unsigned(), // Solo números positivos
     ]),
@@ -12,19 +12,15 @@ export default class ExpenseValidator {
     status: schema.string({}, [
       rules.regex(/^(pendiente|pagado|cancelado)$/), // Estructura de estado
     ]),
-    service_id: schema.number([
-      rules.exists({ table: 'services', column: 'id' }), // Verifica existencia en la tabla `services`
-    ]),
     driver_id: schema.number([
       rules.exists({ table: 'drivers', column: 'id' }), // Verifica existencia en la tabla `drivers`
     ]),
-  });
+  */});
 
-  public messages: CustomMessages = {
+  public messages: CustomMessages = {/*
     'amount.unsigned': 'El monto debe ser un número positivo.',
     'description.string': 'La descripción debe ser una cadena de texto.',
     'status.regex': 'El estado debe ser uno de los siguientes: pendiente, pagado, cancelado.',
-    'service_id.exists': 'El ID del servicio no existe en la base de datos.',
-    'driver_id.exists': 'El ID del conductor no existe en la base de datos.',
+    'driver_id.exists': 'El ID del conductor no existe en la base de datos.',*/
   };
 }

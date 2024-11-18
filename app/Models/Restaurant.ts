@@ -20,4 +20,5 @@ export default class Restaurant extends Service {
   })
   public expense: HasMany<typeof Expense>
   
+  
 }

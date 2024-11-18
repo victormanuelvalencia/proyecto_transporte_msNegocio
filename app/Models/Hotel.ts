@@ -22,4 +22,5 @@ export default class Hotel extends Service {
   })
   public expense: HasMany<typeof Expense>
   
+  
 }

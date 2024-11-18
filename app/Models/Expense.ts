@@ -21,10 +21,18 @@ export default class Expense extends BaseModel {
   public status:string
 
   @column()
-  public service_id:number
-
+  public hotel_id:number
+  
+  @column()
+  public restaurant_id:number
+  
+  
   @column()
   public driver_id:number
+  
+  @column()
+  public owner_id:number
+
   
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

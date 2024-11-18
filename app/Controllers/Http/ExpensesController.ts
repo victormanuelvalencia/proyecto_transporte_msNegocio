@@ -45,7 +45,6 @@ export default class ExpensesController {
         theExpense.ammount = body.ammount;
         theExpense.description = body.description;
         theExpense.status = body.status;
-        theExpense.service_id = body.service_id;
         theExpense.driver_id = body.driver_idc;
 
 

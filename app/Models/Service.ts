@@ -3,7 +3,6 @@ import { BaseModel, column, HasMany, hasMany, hasOne, HasOne } from '@ioc:Adonis
 import Expense from './Expense'
 import Administrator from './Administrator'
 
-
 export default class Service extends BaseModel {
   @column({ isPrimary: true })
   public id: number
