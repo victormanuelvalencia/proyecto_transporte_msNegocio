@@ -48,7 +48,7 @@ export default class DriversController {
     }
   }
 
-    // Definimos el metodo que recibe un objeto con una request http y una respuesta 
+  // Definimos el metodo que recibe un objeto con una request http y una respuesta 
   public async create({ request, response }: HttpContextContract) { 
     try {
       //Extrae el cuerpo de la solicitud http, que contiene los datos del nuevo conductor
@@ -107,12 +107,7 @@ export default class DriversController {
   public async update({ params, request }: HttpContextContract) {
     const theDriver: Driver = await Driver.findOrFail(params.id); //busque el teatro con el identificador
     const body = request.body(); //leer lo que viene en la carta
-
-    theDriver.license_number = body.license_number;
-    theDriver.license_expiry = body.license_expiry;
-    theDriver.user_id = body.user_id;
-
-
+    theDriver.merge(body);
     return await theDriver.save(); //se confirma a la base de datos el cambio
   }
 
@@ -120,7 +115,6 @@ export default class DriversController {
     //
     const theTheater: Driver = await Driver.findOrFail(params.id); //buscarlo
     response.status(204);
-
     return await theTheater.delete(); //el teatro que se encontro, eliminelo
   }
 }
