@@ -8,10 +8,52 @@ export default class Facture extends BaseModel {
   public id: number
 
   @column()
-  public amount: number
+  public card_number:string
+  
+  @column()
+  public exp_year:string
+  
+  @column()
+  public exp_month:string
 
   @column()
-  public date: Date
+  public cvc:string
+
+  @column()
+  public name:string
+
+  @column()
+  public last_name:string
+
+  @column()
+  public email:string
+  
+  @column()
+  public phone:string
+  
+  @column()
+  public doc_number:string
+
+  @column()
+  public city:string
+
+  @column()
+  public address:string
+
+  @column()
+  public cell_phone:string
+
+  @column()
+  public bill:string
+
+  @column()
+  public value:string
+
+  @column()
+  public expense_id:number
+
+  @column()
+  public fee_id:number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
