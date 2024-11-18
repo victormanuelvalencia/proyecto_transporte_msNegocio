@@ -16,7 +16,7 @@ export default class Restaurant extends Service {
 
   @hasMany(() => Expense, {
     //nombre de la clave foranea que permite la relacion
-    foreignKey: 'service_id'
+    foreignKey: 'restaurant_id'
   })
   public expense: HasMany<typeof Expense>
   

@@ -6,8 +6,11 @@ export default class ExpensesController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theExpense: Expense = await Expense.findOrFail(params.id)
-            await theExpense.load('service')
+            await theExpense.load('hotel')
+            await theExpense.load('restaurant')
             await theExpense.load('driver')
+            await theExpense.load('owner')
+            await theExpense.load('facture')
 
             return theExpense;
         } else {

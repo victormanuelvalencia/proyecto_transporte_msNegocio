@@ -6,7 +6,7 @@ export default class ServicesController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theService: Service = await Service.findOrFail(params.id)
-            await theService.load('administrator')
+            //await theService.load('administrator')
             return theService;
         } else {
             const data = request.all()

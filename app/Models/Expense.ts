@@ -4,6 +4,8 @@ import Service from './Service'
 import Driver from './Driver'
 import Facture from './Facture'
 import Owner from './Owner'
+import Hotel from './Hotel'
+import Restaurant from './Restaurant'
 
 export default class Expense extends BaseModel {
   @column({ isPrimary: true })
@@ -29,13 +31,13 @@ export default class Expense extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
-
+/*
   @belongsTo(() => Service, {
     //nombre de la clave foranea que permite la relacion
     foreignKey: 'service_id'
   })
   public service: BelongsTo<typeof Service>
-/*
+*/ 
   @belongsTo(() => Hotel, {
     //nombre de la clave foranea que permite la relacion
     foreignKey: 'hotel_id'
@@ -47,7 +49,7 @@ export default class Expense extends BaseModel {
     foreignKey: 'restaurant_id'
   })
   public restaurant: BelongsTo<typeof Restaurant>
-*/
+
   @belongsTo(() => Driver, {
     //nombre de la clave foranea que permite la relacion
     foreignKey: 'driver_id'
@@ -56,7 +58,7 @@ export default class Expense extends BaseModel {
 
   @belongsTo(() => Owner, {
     //nombre de la clave foranea que permite la relacion
-    foreignKey: 'driver_id'
+    foreignKey: 'owner_id'
   })
   public owner: BelongsTo<typeof Owner>
 
