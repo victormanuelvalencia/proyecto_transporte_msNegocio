@@ -1,40 +1,25 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { schema, rules, CustomMessages } from '@ioc:Adonis/Core/Validator';
 
 export default class AdministratorValidator {
-  constructor(protected ctx: HttpContextContract) {}
+  public schema = schema.create({
+    phone_number: schema.string({}, [
+      rules.regex(/^\d+$/), // Solo permite números
+    ]),
+    active: schema.boolean(),
+    hotel_id: schema.number([
+      rules.exists({ table: 'hotels', column: 'id' }), // Verifica existencia en la tabla `hotels`
+    ]),
+    restaurant_id: schema.number([
+      rules.exists({ table: 'restaurants', column: 'id' }), // Verifica existencia en la tabla `restaurants`
+    ]),
+    user_id: schema.string(), // Debe validarse manualmente al integrarse con el microservicio de seguridad
+  });
 
-  /*
-   * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
-   *
-   * For example:
-   * 1. The username must be of data type string. But then also, it should
-   *    not contain special characters or numbers.
-   *    ```
-   *     schema.string([ rules.alpha() ])
-   *    ```
-   *
-   * 2. The email must be of data type string, formatted as a valid
-   *    email. But also, not used by any other user.
-   *    ```
-   *     schema.string([
-   *       rules.email(),
-   *       rules.unique({ table: 'users', column: 'email' }),
-   *     ])
-   *    ```
-   */
-  public schema = schema.create({})
-
-  /**
-   * Custom messages for validation failures. You can make use of dot notation `(.)`
-   * for targeting nested fields and array expressions `(*)` for targeting all
-   * children of an array. For example:
-   *
-   * {
-   *   'profile.username.required': 'Username is required',
-   *   'scores.*.number': 'Define scores as valid numbers'
-   * }
-   *
-   */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'phone_number.regex': 'El número de teléfono solo debe contener números.',
+    'active.boolean': 'El campo "active" debe ser un valor booleano.',
+    'hotel_id.exists': 'El hotel con el ID proporcionado no existe.',
+    'restaurant_id.exists': 'El restaurante con el ID proporcionado no existe.',
+  };
 }
+

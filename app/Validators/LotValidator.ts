@@ -1,40 +1,34 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { schema, rules, CustomMessages } from '@ioc:Adonis/Core/Validator';
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 
 export default class LotValidator {
   constructor(protected ctx: HttpContextContract) {}
 
-  /*
-   * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
-   *
-   * For example:
-   * 1. The username must be of data type string. But then also, it should
-   *    not contain special characters or numbers.
-   *    ```
-   *     schema.string([ rules.alpha() ])
-   *    ```
-   *
-   * 2. The email must be of data type string, formatted as a valid
-   *    email. But also, not used by any other user.
-   *    ```
-   *     schema.string([
-   *       rules.email(),
-   *       rules.unique({ table: 'users', column: 'email' }),
-   *     ])
-   *    ```
-   */
-  public schema = schema.create({})
+  public schema = schema.create({
+    category_id: schema.number([
+      rules.exists({ table: 'categories', column: 'id' }), // Verifica existencia en la tabla `categories`
+    ]),
+    products: schema.object().members({}), // Acepta cualquier objeto JSON
+    total_products: schema.number([ 
+      rules.unsigned(), // Solo números positivos
+    ]),
+    total_weight: schema.number([ 
+      rules.unsigned(), // Solo números positivos
+    ]),
+    dir_list_order_id: schema.number([
+      rules.exists({ table: 'dir_list_orders', column: 'id' }), // Verifica existencia en la tabla `dir_list_orders`
+    ]),
+    rute_id: schema.number([
+      rules.exists({ table: 'rutes', column: 'id' }), // Verifica existencia en la tabla `rutes`
+    ]),
+  });
 
-  /**
-   * Custom messages for validation failures. You can make use of dot notation `(.)`
-   * for targeting nested fields and array expressions `(*)` for targeting all
-   * children of an array. For example:
-   *
-   * {
-   *   'profile.username.required': 'Username is required',
-   *   'scores.*.number': 'Define scores as valid numbers'
-   * }
-   *
-   */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'category_id.exists': 'El ID de la categoría no existe en la base de datos.',
+    'products.object': 'Los productos deben ser un objeto JSON.',
+    'total_products.unsigned': 'El número total de productos debe ser un número positivo.',
+    'total_weight.unsigned': 'El peso total debe ser un número positivo.',
+    'dir_list_order_id.exists': 'El ID de la orden de lista de direcciones no existe en la base de datos.',
+    'rute_id.exists': 'El ID de la ruta no existe en la base de datos.',
+  };
 }

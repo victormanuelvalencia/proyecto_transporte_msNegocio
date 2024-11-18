@@ -5,22 +5,20 @@ export default class OwnerValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    user_id: schema.number([
-      rules.exists({ table: 'users', column: 'id' }),
-    ]),
-    driver_id: schema.number([
-      rules.exists({ table: 'drivers', column: 'id' }),
+    license_number: schema.string({}, [
+      rules.regex(/^\d{1,15}$/), // Número de licencia de hasta 15 dígitos
     ]),
     rating: schema.number([
       rules.range(0, 10), // Validación de número en el rango de 0 a 10
     ]),
+    license_expiry: schema.date(),
+    user_id: schema.string(), // Debe validarse manualmente al integrarse con el microservicio de seguridad
   });
-  
+
   public messages: CustomMessages = {
-    'user_id.required': 'El campo user_id es obligatorio',
-    'user_id.exists': 'El user_id debe existir en la tabla de usuarios',
-    'driver_id.required': 'El ID del conductor es obligatorio',
-    'driver_id.exists': 'El driver_id debe existir en la tabla de conductores',
+    'license_number.regex': 'El número de licencia debe ser numérico y de hasta 10 dígitos.',
+    'license_expiry.date': 'La fecha de expiración de la licencia debe ser una fecha válida.',
+    'user_id.string': 'El ID de usuario debe ser una cadena de texto.',
     'rating.required': 'El campo rating es obligatorio',
     'rating.range': 'El rating debe ser un número entre 0 y 10',
   };

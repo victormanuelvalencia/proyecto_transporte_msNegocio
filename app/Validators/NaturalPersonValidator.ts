@@ -1,40 +1,22 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { schema, rules, CustomMessages } from '@ioc:Adonis/Core/Validator';
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 
 export default class NaturalPersonValidator {
   constructor(protected ctx: HttpContextContract) {}
 
-  /*
-   * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
-   *
-   * For example:
-   * 1. The username must be of data type string. But then also, it should
-   *    not contain special characters or numbers.
-   *    ```
-   *     schema.string([ rules.alpha() ])
-   *    ```
-   *
-   * 2. The email must be of data type string, formatted as a valid
-   *    email. But also, not used by any other user.
-   *    ```
-   *     schema.string([
-   *       rules.email(),
-   *       rules.unique({ table: 'users', column: 'email' }),
-   *     ])
-   *    ```
-   */
-  public schema = schema.create({})
+  public schema = schema.create({
+    document_type: schema.string(),
+    document_number: schema.string({}, [
+      rules.regex(/^\d{1,15}$/), // Solo números con un máximo de 15 dígitos
+    ]),
+    company_id: schema.number([
+      rules.exists({ table: 'companies', column: 'id' }), // Verifica existencia en la tabla `companies`
+    ]),
+    user_id: schema.string(), // Validación manual al integrarse con el MS de seguridad
+  });
 
-  /**
-   * Custom messages for validation failures. You can make use of dot notation `(.)`
-   * for targeting nested fields and array expressions `(*)` for targeting all
-   * children of an array. For example:
-   *
-   * {
-   *   'profile.username.required': 'Username is required',
-   *   'scores.*.number': 'Define scores as valid numbers'
-   * }
-   *
-   */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'document_number.regex': 'El número de documento debe ser numérico y tener hasta 15 dígitos.',
+    'company_id.exists': 'El ID de la empresa no existe en la base de datos.',
+  };
 }

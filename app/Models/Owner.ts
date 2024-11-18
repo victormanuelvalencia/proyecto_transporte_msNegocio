@@ -8,9 +8,6 @@ import Shift from './Shift';
 
 export default class Owner extends Driver {
   @column()
-  public user_id: string 
-
-  @column()
   public rating: number
 
   @hasMany(() => OwnerVehicle, {

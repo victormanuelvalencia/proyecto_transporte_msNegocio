@@ -6,8 +6,7 @@ export default class ServicesController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theService: Service = await Service.findOrFail(params.id)
-            //await theService.load('administrator')
-
+            await theService.load('administrator')
             return theService;
         } else {
             const data = request.all()
@@ -18,9 +17,7 @@ export default class ServicesController {
             } else {
                 return await Service.query()
             }
-
         }
-
     }
 
     //Es una funcion asincrona, que hace que se pueda hacer el create en paralelo 

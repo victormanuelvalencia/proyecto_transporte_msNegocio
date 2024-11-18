@@ -1,40 +1,27 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { schema, rules, CustomMessages } from '@ioc:Adonis/Core/Validator';
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 
 export default class OperationValidator {
   constructor(protected ctx: HttpContextContract) {}
 
-  /*
-   * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
-   *
-   * For example:
-   * 1. The username must be of data type string. But then also, it should
-   *    not contain special characters or numbers.
-   *    ```
-   *     schema.string([ rules.alpha() ])
-   *    ```
-   *
-   * 2. The email must be of data type string, formatted as a valid
-   *    email. But also, not used by any other user.
-   *    ```
-   *     schema.string([
-   *       rules.email(),
-   *       rules.unique({ table: 'users', column: 'email' }),
-   *     ])
-   *    ```
-   */
-  public schema = schema.create({})
+  public schema = schema.create({
+    date: schema.date(),
+    operation_type: schema.string({}, [
+      rules.regex(/^[a-zA-Z\s]+$/), // Solo letras y espacios
+    ]),
+    state: schema.boolean(),
+    municipality_id: schema.number([
+      rules.exists({ table: 'municipalities', column: 'id' }), // Verifica existencia en la tabla `municipalities`
+    ]),
+    vehicle_id: schema.number([
+      rules.exists({ table: 'vehicles', column: 'id' }), // Verifica existencia en la tabla `vehicles`
+    ]),
+  });
 
-  /**
-   * Custom messages for validation failures. You can make use of dot notation `(.)`
-   * for targeting nested fields and array expressions `(*)` for targeting all
-   * children of an array. For example:
-   *
-   * {
-   *   'profile.username.required': 'Username is required',
-   *   'scores.*.number': 'Define scores as valid numbers'
-   * }
-   *
-   */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'date.date': 'La fecha debe ser una fecha válida.',
+    'operation_type.regex': 'El tipo de operación solo debe contener letras y espacios.',
+    'municipality_id.exists': 'El ID del municipio no existe en la base de datos.',
+    'vehicle_id.exists': 'El ID del vehículo no existe en la base de datos.',
+  };
 }

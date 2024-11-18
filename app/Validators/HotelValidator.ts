@@ -1,40 +1,33 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { schema, rules, CustomMessages } from '@ioc:Adonis/Core/Validator';
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 
 export default class HotelValidator {
   constructor(protected ctx: HttpContextContract) {}
 
-  /*
-   * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
-   *
-   * For example:
-   * 1. The username must be of data type string. But then also, it should
-   *    not contain special characters or numbers.
-   *    ```
-   *     schema.string([ rules.alpha() ])
-   *    ```
-   *
-   * 2. The email must be of data type string, formatted as a valid
-   *    email. But also, not used by any other user.
-   *    ```
-   *     schema.string([
-   *       rules.email(),
-   *       rules.unique({ table: 'users', column: 'email' }),
-   *     ])
-   *    ```
-   */
-  public schema = schema.create({})
+  public schema = schema.create({
+    service_name: schema.string({}, [
+      rules.regex(/^[a-zA-Z\s]+$/), // Solo letras
+    ]),
+    location: schema.string({}, [
+      rules.regex(/^[a-zA-Z\s]+$/), // Solo letras
+    ]),
+    description: schema.string({}, [
+      rules.regex(/^[a-zA-Z\s]+$/), // Solo letras
+    ]),
+    total_amount: schema.number([ 
+      rules.unsigned(), // Solo números positivos
+    ]),
+    total_nights: schema.number([ 
+      rules.range(1, 99), // Número entre 1 y 99
+    ]),
+    room_type: schema.string(),
+  });
 
-  /**
-   * Custom messages for validation failures. You can make use of dot notation `(.)`
-   * for targeting nested fields and array expressions `(*)` for targeting all
-   * children of an array. For example:
-   *
-   * {
-   *   'profile.username.required': 'Username is required',
-   *   'scores.*.number': 'Define scores as valid numbers'
-   * }
-   *
-   */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'service_name.regex': 'El nombre del servicio solo debe contener letras.',
+    'location.regex': 'La ubicación solo debe contener letras.',
+    'description.regex': 'La descripción solo debe contener letras.',
+    'total_amount.unsigned': 'El monto total debe ser un número positivo.',
+    'total_nights.range': 'El número de noches debe ser un valor entre 1 y 99.',
+  };
 }
