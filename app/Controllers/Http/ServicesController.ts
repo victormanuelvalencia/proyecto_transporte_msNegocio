@@ -31,7 +31,6 @@ export default class ServicesController {
         const theService: Service = await Service.create(body); //Esto le pide que espere 
         //El await es siempre para hacer consultas en bases de datos 
         //Lo que hace es esperar que el teatro responda
-
         return theService;
     }
 

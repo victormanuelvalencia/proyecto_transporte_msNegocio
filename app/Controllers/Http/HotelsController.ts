@@ -8,8 +8,6 @@ export default class HotelsController {
             let theHotel: Hotel = await Hotel.findOrFail(params.id)
             await theHotel.load('expense')
             await theHotel.load('administrator')
-
-            //await theHotel.load('administrator')
             return theHotel;
         } else {
             const data = request.all()
@@ -20,9 +18,7 @@ export default class HotelsController {
             } else {
                 return await Hotel.query()
             }
-
         }
-
     }
 
     //Es una funcion asincrona, que hace que se pueda hacer el create en paralelo 
@@ -33,20 +29,13 @@ export default class HotelsController {
         const theHotel: Hotel = await Hotel.create(body); //Esto le pide que espere 
         //El await es siempre para hacer consultas en bases de datos 
         //Lo que hace es esperar que el teatro responda
-
         return theHotel;
     }
 
     public async update({ params, request }: HttpContextContract) {
         const theHotel: Hotel = await Hotel.findOrFail(params.id);
         const body = request.body();
-        theHotel.service_name = body.service_name;
-        theHotel.location = body.location;
-        theHotel.description = body.description;
-        theHotel.total_ammount = body.total_ammount;
-        theHotel.total_nights = body.total_nights;
-        theHotel.room_type = body.room_type;
-
+        theHotel.merge(body);
         return await theHotel.save();
     }
 

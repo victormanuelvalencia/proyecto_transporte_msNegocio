@@ -6,11 +6,12 @@ export default class Owners extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id') // ID auto incremental
+      table.string('license_number').notNullable()
+      table.date('license_expiry')
       table.string('user_id')
-      table.integer('driver_id').unsigned().references('drivers.id').onDelete('CASCADE') // Clave foránea con 'drivers'
       table.integer('rating').notNullable().defaultTo(0)
-      table.timestamp('created_at') 
-      table.timestamp('updated_at') 
+      table.timestamp('created_at', { useTz: true }) 
+      table.timestamp('updated_at', { useTz: true }) 
     })
   }
 
