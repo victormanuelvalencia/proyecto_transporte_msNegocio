@@ -7,9 +7,6 @@ import Shift from './Shift';
 
 
 export default class Owner extends Driver {
-  @column({ isPrimary: true })
-  public id: number;
-
   @column()
   public user_id: string 
 
@@ -20,7 +17,6 @@ export default class Owner extends Driver {
     foreignKey: 'owner_id',
   })
   public ownerVehicle: HasMany<typeof OwnerVehicle>;
-
  
   // Relación con turnos (uno a muchos)
   @hasMany(() => Shift, {

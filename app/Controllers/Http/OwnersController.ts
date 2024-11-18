@@ -5,7 +5,6 @@ import OwnerValidator from 'App/Validators/OwnerValidator';
 import axios from 'axios';
 import Env from "@ioc:Adonis/Core/Env";
 
-
 export default class OwnersController {
     public async find({ request, params }: HttpContextContract) {
         try {    
@@ -28,7 +27,7 @@ export default class OwnersController {
                 await theOwner.load('expense')
                 await theOwner.load('shift');
                 await theOwner.load('ownerVehicle');
-                await theOwner.load('driverVehicle')
+                await theOwner.load('driverVehicle');
                 return { driver: theOwner, user: theUserResponse.data };
             } else {
                 const data = request.all()
