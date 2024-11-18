@@ -1,6 +1,5 @@
 import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
-import Service from './Service'
 import Driver from './Driver'
 import Facture from './Facture'
 import Owner from './Owner'

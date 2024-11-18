@@ -1,7 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, HasMany, hasMany, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm'
-import Expense from './Expense'
-import Administrator from './Administrator'
+import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+
 
 export default class Service extends BaseModel {
   @column({ isPrimary: true })
