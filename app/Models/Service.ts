@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, HasMany, hasMany, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm'
+import Expense from './Expense'
+import Administrator from './Administrator'
 
 
 export default class Service extends BaseModel {
@@ -23,7 +25,7 @@ export default class Service extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
-/*
+
   @hasMany(() => Expense, {
     //nombre de la clave foranea que permite la relacion
     foreignKey: 'service_id'
@@ -35,5 +37,5 @@ export default class Service extends BaseModel {
     foreignKey: 'service_id'
   })
   public administrator: HasOne<typeof Administrator>
-  */
+  
 }

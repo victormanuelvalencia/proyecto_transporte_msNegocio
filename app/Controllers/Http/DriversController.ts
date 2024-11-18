@@ -28,7 +28,6 @@ export default class DriversController {
         await theDriver.load('expense')
         await theDriver.load('shift');
         await theDriver.load('driverVehicle');
-
         return { driver: theDriver, user: theUserResponse.data };
       } else {
         const data = request.all();
@@ -112,7 +111,6 @@ export default class DriversController {
   }
 
   public async delete({ params, response }: HttpContextContract) {
-    //
     const theTheater: Driver = await Driver.findOrFail(params.id); //buscarlo
     response.status(204);
     return await theTheater.delete(); //el teatro que se encontro, eliminelo

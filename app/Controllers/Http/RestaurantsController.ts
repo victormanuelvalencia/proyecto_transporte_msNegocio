@@ -19,9 +19,7 @@ export default class RestaurantsController {
             } else {
                 return await Restaurant.query()
             }
-
         }
-
     }
 
     //Es una funcion asincrona, que hace que se pueda hacer el create en paralelo 
@@ -32,19 +30,13 @@ export default class RestaurantsController {
         const theRestaurant: Restaurant = await Restaurant.create(body); //Esto le pide que espere 
         //El await es siempre para hacer consultas en bases de datos 
         //Lo que hace es esperar que el teatro responda
-
         return theRestaurant;
     }
 
     public async update({ params, request }: HttpContextContract) {
         const theRestaurant: Restaurant = await Restaurant.findOrFail(params.id);
         const body = request.body();
-        theRestaurant.service_name = body.service_name;;
-        theRestaurant.location = body.location;
-        theRestaurant.description = body.description;
-        theRestaurant.total_ammount = body.total_ammount;
-        theRestaurant.meal_type = body.meal_type;
-
+        theRestaurant.merge(body);
         return await theRestaurant.save();
     }
 

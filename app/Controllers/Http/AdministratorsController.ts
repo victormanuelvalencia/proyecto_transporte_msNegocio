@@ -28,7 +28,6 @@ export default class AdministratorsController {
         }
         await theAdministrator.load('hotel')
         await theAdministrator.load('restaurant')
-
         return { administrator: theAdministrator, user: theUserResponse.data };
       } else {
         const data = request.all();
