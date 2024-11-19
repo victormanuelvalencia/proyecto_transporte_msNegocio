@@ -10,6 +10,9 @@ export default class DriverVehicle extends BaseModel {
 
   @column()
   public driver_id: number;
+  
+  @column()
+  public owner_id: number;
 
   @column()
   public vehicle_id: number;
@@ -27,7 +30,7 @@ export default class DriverVehicle extends BaseModel {
 
   @belongsTo(() => Owner, {
     //nombre de la clave foranea que permite la relacion
-    foreignKey: 'driver_id'
+    foreignKey: 'owner_id'
   })
   public owner: BelongsTo<typeof Owner>
 

@@ -31,9 +31,10 @@ export default class LotsController {
     public async update({ params, request }: HttpContextContract) {
         const theLot: Lot = await Lot.findOrFail(params.id);
         const body = request.body();
-        theLot.product = body.product;
-        theLot.total_products = body.total_products;
         theLot.total_weight = body.total_weight;
+        theLot.dir_list_order_id = body.dir_list_order_id;
+        theLot.rute_id = body.rute_id;
+        
         return await theLot.save();
     }
 

@@ -7,6 +7,9 @@ export default class RutesController {
         if (params.id) {
             let theRute: Rute = await Rute.findOrFail(params.id)
             await theRute.load('dirListOrder')
+            await theRute.load('lot')
+            await theRute.load('contract')
+            await theRute.load('vehicle')
             return theRute;
         } else {
             const data = request.all()
@@ -40,6 +43,9 @@ export default class RutesController {
         theRute.distance = body.distance;
         theRute.count_distribution_centers = body.count_distribution_centers;
         theRute.average_time = body.average_time;
+        theRute.contract_id = body.contract_id;
+        theRute.vehicle_id = body.vehicle_id;
+
 
         return await theRute.save();
     }

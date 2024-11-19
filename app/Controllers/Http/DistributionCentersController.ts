@@ -7,7 +7,7 @@ export default class DistributionCentersController {
         if (params.id) {
             let theDistributionCenter: DistributionCenter = await DistributionCenter.findOrFail(params.id)
             await theDistributionCenter.load('municipality')
-            await theDistributionCenter.load('address')
+           // await theDistributionCenter.load('address')
             return theDistributionCenter;
         } else {
             const data = request.all()

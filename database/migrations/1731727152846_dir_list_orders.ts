@@ -14,7 +14,7 @@ export default class extends BaseSchema {
                               .onDelete('CASCADE')
       table.integer('address_id')
                               .unsigned()
-                              .references('addresses.id')
+                              .references('address2s.id')
                               .onDelete('CASCADE')
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })

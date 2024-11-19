@@ -18,6 +18,12 @@ export default class Rute extends BaseModel {
   @column()
   public average_time: number
 
+  @column()
+  public contract_id:number
+  
+  @column()
+  public vehicle_id:number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

@@ -45,7 +45,10 @@ export default class ExpensesController {
         theExpense.ammount = body.ammount;
         theExpense.description = body.description;
         theExpense.status = body.status;
-        theExpense.driver_id = body.driver_idc;
+        theExpense.hotel_id = body.hotel_id;
+        theExpense.restaurant_id = body.restaurant_id;
+        theExpense.owner_id = body.owner_id;
+        theExpense.driver_id = body.driver_id;
 
 
         return await theExpense.save();

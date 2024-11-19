@@ -2,9 +2,7 @@ import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
 export default class ShiftValidator {
   public schema = schema.create({
-    driver_id: schema.number([
-      rules.exists({ table: 'drivers', column: 'id' }), // Verifica que el ID de conductor exista en la tabla de drivers
-    ]),
+  
     start_time: schema.string({}, [
       rules.regex(/^\d{2}:\d{2}$/), // Verifica que el formato sea HH:mm
     ]),
@@ -17,7 +15,6 @@ export default class ShiftValidator {
   });
 
   public messages = {
-    'driver_id.required': 'El campo driver_id es obligatorio.',
     'driver_id.exists': 'El driver_id debe existir en la base de datos.',
     'start_time.required': 'El campo start_time es obligatorio.',
     'start_time.regex': 'El campo start_time debe tener el formato HH:mm.',

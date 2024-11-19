@@ -8,9 +8,10 @@ export default class extends BaseSchema {
       table.increments('id')
       // Relación con conductor
       table.integer('driver_id').unsigned().references('id').inTable('drivers').onDelete('CASCADE') 
-      table.string('start_time').notNullable()
-      table.string('end_time').notNullable()
-      table.date('date').notNullable()
+      table.integer('owner_id').unsigned().references('owners.id').onDelete('CASCADE')
+      table.string('start_time')
+      table.string('end_time')
+      table.date('date')
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })

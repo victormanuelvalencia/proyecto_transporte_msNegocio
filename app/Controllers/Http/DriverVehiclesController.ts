@@ -6,8 +6,9 @@ export default class DriverVehiclesController {
     public async find({ request, params }: HttpContextContract) {
         if (params.id) {
             let theDriverVehicle: DriverVehicle = await DriverVehicle.findOrFail(params.id);
-            await theDriverVehicle.load('owner');
+            //await theDriverVehicle.load('owner');
             await theDriverVehicle.load('vehicle');
+            await theDriverVehicle.load('driver')
             return theDriverVehicle;
         } else {
             const data = request.all()

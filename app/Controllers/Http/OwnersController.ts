@@ -28,7 +28,7 @@ export default class OwnersController {
                 await theOwner.load('shift');
                 await theOwner.load('ownerVehicle');
                 await theOwner.load('driverVehicle');
-                return { driver: theOwner, user: theUserResponse.data };
+                return { owner: theOwner, user: theUserResponse.data };
             } else {
                 const data = request.all()
                 if ("page" in data && "per_page" in data) { //aqui es una forma de listar por paginas distintos teatros

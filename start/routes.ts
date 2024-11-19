@@ -22,7 +22,7 @@ import "./routes/customers"
 import "./routes/factures"
 import "./routes/fees"
 import "./routes/naturalPeople"
-
+import "./routes/expenses"
 // Rutas vmv
 import "./routes/owners"
 import "./routes/drivers"

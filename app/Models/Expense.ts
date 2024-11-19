@@ -25,7 +25,6 @@ export default class Expense extends BaseModel {
   @column()
   public restaurant_id:number
   
-  
   @column()
   public driver_id:number
   

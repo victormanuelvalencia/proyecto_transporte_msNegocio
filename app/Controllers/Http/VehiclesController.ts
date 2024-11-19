@@ -8,6 +8,10 @@ export default class VehiclesController {
             let theVehicle: Vehicle = await Vehicle.findOrFail(params.id)
             await theVehicle.load('operation')
             await theVehicle.load('insurance')
+            await theVehicle.load('rute')
+            await theVehicle.load('driverVehicle')
+            await theVehicle.load('ownerVehicle')
+            
             return theVehicle;
         } else {
             const data = request.all()

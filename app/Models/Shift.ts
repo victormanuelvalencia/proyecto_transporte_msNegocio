@@ -9,6 +9,9 @@ export default class Shift extends BaseModel {
 
   @column()
   public driver_id: number
+  
+  @column()
+  public owner_id: number
 
   @column()
   public start_time: string
@@ -32,7 +35,7 @@ export default class Shift extends BaseModel {
 
   @belongsTo(() => Owner, {
     //nombre de la clave foranea que permite la relacion
-    foreignKey: 'driver_id'
+    foreignKey: 'owner_id'
   })
   public owner: BelongsTo<typeof Owner>
 }

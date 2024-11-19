@@ -32,7 +32,7 @@ export default class AddressesController {
         const theAddress: Address = await Address.create(body); //Esto le pide que espere 
         //El await es siempre para hacer consultas en bases de datos 
         //Lo que hace es esperar que el teatro responda
-        await theAddress.load('municipality')
+
         return theAddress;
     }
 
