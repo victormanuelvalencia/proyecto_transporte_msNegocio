@@ -14,8 +14,8 @@ export default class DirListOrderValidator {
     rute_id: schema.number([
       rules.exists({ table: 'rutes', column: 'id' }), // Verifica existencia en la tabla `rutes`
     ]),
-    address_id: schema.number([
-      rules.exists({ table: 'addresses', column: 'id' }), // Verifica existencia en la tabla `addresses`
+    sec_address_id: schema.number([
+      rules.exists({ table: 'sec_addresses', column: 'id' }), // Verifica existencia en la tabla `addresses`
     ]),
   });
 
@@ -23,6 +23,6 @@ export default class DirListOrderValidator {
     'origin.regex': 'El origen solo debe contener letras y tildes.',
     'destination.regex': 'El destino solo debe contener letras y tildes.',
     'rute_id.exists': 'El ID de la ruta proporcionado no existe.',
-    'address_id.exists': 'El ID de la dirección proporcionado no existe.',
+    'sec_address_id.exists': 'El ID de la dirección proporcionado no existe.',
   };
 }

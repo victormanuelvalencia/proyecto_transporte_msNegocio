@@ -3,6 +3,7 @@ import { BaseModel, BelongsTo, belongsTo, column, HasOne, hasOne } from '@ioc:Ad
 import Rute from './Rute'
 import Address from './Address'
 import Lot from './Lot'
+import SecAddress from './SecAddress'
 
 export default class DirListOrder extends BaseModel {
   @column({ isPrimary: true })
@@ -18,7 +19,7 @@ export default class DirListOrder extends BaseModel {
   public rute_id: number
 
   @column()
-  public address_id: number
+  public sec_address_id: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -32,11 +33,11 @@ export default class DirListOrder extends BaseModel {
   })
   public rute: BelongsTo<typeof Rute>
 
-  @belongsTo(() => Address, {
+  @belongsTo(() => SecAddress, {
     //nombre de la clave foranea que permite la relacion
-    foreignKey: 'address_id'
+    foreignKey: 'sec_address_id'
   })
-  public address: BelongsTo<typeof Address>
+  public address: BelongsTo<typeof SecAddress>
 
   @hasOne(() => Lot, {
     //nombre de la clave foranea que permite la relacion

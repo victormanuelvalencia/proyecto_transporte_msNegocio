@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import Municipality from './Municipality'
-import Address from './Address'
+import SecAddress from './SecAddress'
 
 export default class DistributionCenter extends BaseModel {
   @column({ isPrimary: true })
@@ -23,11 +23,11 @@ export default class DistributionCenter extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasOne(() => Address, {
+  @hasOne(() => SecAddress, {
     //nombre de la clave foranea que permite la relacion
-    foreignKey: 'distributionCenter_id'
+    foreignKey: 'distribution_center_id'
   })
-  public address: HasOne<typeof Address>
+  public address: HasOne<typeof SecAddress>
   
   @belongsTo(() => Municipality, {
     //nombre de la clave foranea que permite la relacion

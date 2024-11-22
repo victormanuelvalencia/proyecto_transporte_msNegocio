@@ -4,10 +4,11 @@ import Municipality from './Municipality'
 import DistributionCenter from './DistributionCenter'
 import DirListOrder from './DirListOrder'
 
-export default class Address extends BaseModel {
+export default class SecAddress extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  
   @column()
   public street: string
 
@@ -21,7 +22,8 @@ export default class Address extends BaseModel {
   public municipality_id: number
 
   @column()
-  public distributionCenter_id: number
+  public distribution_center_id: number
+
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -29,6 +31,7 @@ export default class Address extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
+  
   @belongsTo(() => Municipality, {
     //nombre de la clave foranea que permite la relacion
     foreignKey: 'municipality_id'
@@ -37,7 +40,7 @@ export default class Address extends BaseModel {
 
   @belongsTo(() => DistributionCenter, {
     //nombre de la clave foranea que permite la relacion
-    foreignKey: 'distributionCenter_id'
+    foreignKey: 'distribution_center_id'
   })
   public distributionCenter: BelongsTo<typeof DistributionCenter>
 

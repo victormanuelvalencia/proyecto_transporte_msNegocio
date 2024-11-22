@@ -42,7 +42,7 @@ export default class DirListOrdersController {
         theDirListOrder.origin = body.origin;
         theDirListOrder.destination = body.destination;
         theDirListOrder.rute_id = body.rute_id;
-        theDirListOrder.address_id = body.address_id;
+        theDirListOrder.sec_address_id = body.sec_address_id;
 
 
         return await theDirListOrder.save();
