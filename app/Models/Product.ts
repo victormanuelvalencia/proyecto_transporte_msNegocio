@@ -20,6 +20,12 @@ export default class Product extends BaseModel {
   @column()
   public weight: number
 
+  @column()
+  public lot_id:number
+  
+  @column()
+  public customer_id:number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

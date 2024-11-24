@@ -25,11 +25,11 @@ export default class FactureController {
         }
 
     }
-    public async create({ request, response }: HttpContextContract) {
-      try {
+    public async create({ request }: HttpContextContract) {
+      
         // Extraer los datos del cuerpo de la solicitud
         const body = request.body()
-  
+  /*
         // Validar que solo uno de los campos (fee_id o expense_id) esté presente
       if (!!body.fee_id && !!body.expense_id) {
         return response.status(400).send({
@@ -49,14 +49,94 @@ export default class FactureController {
       } else if (body.expense_id) {
         const expense = await Expense.findOrFail(body.expense_id)
         body.value = expense.ammount.toString() // Asignar el valor desde Expense
-        }
-
+        }*/
   
         // Crear la factura en la base de datos
         const theFacture = await Facture.create(body)
+        await theFacture.load("fee", (expenseQuery) => 
+                                                  {
+                                                    expenseQuery.preload("contract", (expenseQuery) => 
+                                                      {
+                                                        expenseQuery.preload("customer", (expenseQuery) => 
+                                                          {
+                                                            expenseQuery.preload("naturalPerson")
+                                                          })
+                                                      })
+                                                  })
+        const user = theFacture.fee.contract.customer.naturalPerson?.user_id;
+        const theUserResponse = await axios.get(
+          `${Env.get("MS_SECURITY")}/users/${user}`,
+          {
+          headers: { Authorization: request.headers().authorization || "" },
+          }
+      );
+
+      //PONER IF..
+
+    if (!theUserResponse.data.email) {
+      //VERIFICAR QUE SI ENCONTRÓ EL EMAIL DE ESE USER
+      return {
+        message: "El correo del usuario no está disponible.",
+      };
+    }
+
+    const emailPayload = {
+      subject: "Nueva factura",
+      recipient: theUserResponse.data.email, // ACCEDER AL EMAIL DEL CONDUCTOR QUE HIZO EL GASTO DEL CUAL ES ESA FACTURA
+      body_html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <div style="max-width: 600px; margin: 20px auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+            <div style="background-color: #007BFF; color: #fff; padding: 15px; text-align: center;">
+              <h2 style="margin: 0; font-size: 20px;">Nueva factura generada</h2>
+            </div>
+            <div style="padding: 20px;">
+              <p>Estimado usuario,</p>
+              <p>Nos complace informarle que se ha generado una nueva factura en nuestro sistema con los siguientes detalles:</p>
+              <table style="border-collapse: collapse; width: 100%; margin-top: 10px;">
+                <tr style="background-color: #f8f9fa; border-bottom: 2px solid #ddd;">
+                  <th style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">Detalle</th>
+                  <th style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">Información</th>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">ID de la factura:</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">${theFacture.fee_id}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">Correo del usuario:</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">${theUserResponse.data.email}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">Cantidad del contrato:</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">${theFacture.fee.contract.total_amount}</td>
+                </tr>
+              </table>
+              <p style="margin-top: 20px;">Si tiene alguna pregunta o necesita más información, no dude en ponerse en contacto con nosotros.</p>
+              <p>Gracias por utilizar nuestros servicios.</p>
+              <p style="margin-top: 20px;"><b>Atentamente,</b></p>
+              <p>Gestión de servicios de carga de productos</p>
+            </div>
+            <div style="background-color: #f8f9fa; padding: 10px; text-align: center; font-size: 12px; color: #555;">
+              <p style="margin: 0;">Este es un mensaje automático. Por favor, no responda a este correo.</p>
+            </div>
+          </div>
+        </div>
+      `
+  };
   
+
+          // Llamar al microservicio de notificaciones
+          const emailResponse = await axios.post(
+           `${Env.get("MS_NOTIFICATIONS")}/send-email`,
+            emailPayload
+          );
+
+          if (!emailResponse.data || emailResponse.status !== 200) {
+            console.warn("No se pudo enviar el email de confirmación.");}
+          return theFacture;
+        }
+        
         // Construir los datos necesarios para el microservicio de pagos
-        const paymentPayload = {
+       /* const paymentPayload = {
           card_number: body.card_number,
           exp_year: body.exp_year,
           exp_month: body.exp_month,
@@ -71,10 +151,11 @@ export default class FactureController {
           cell_phone: body.cell_phone,
           bill: body.bill,
           value: body.value,
-        }
+        }*/
   
         // Enviar la factura al microservicio de pagos
-        const paymentResponse = await axios.post(
+        /*const paymentResponse = await axios.post(
+
           `${Env.get('MS_PAGOS')}/process-payment`,
           paymentPayload
         )
@@ -106,9 +187,10 @@ export default class FactureController {
           error: 'Ocurrió un error inesperado.',
           details: error.message,
         })
-      }
-    }
-
+      }*/
+      
+    
+    
     public async update({ params, request }: HttpContextContract) {
         const theFacture: Facture = await Facture.findOrFail(params.id);
         const body = request.body();

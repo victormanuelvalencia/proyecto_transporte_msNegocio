@@ -35,6 +35,7 @@ export default class LotsController {
         theLot.dir_list_order_id = body.dir_list_order_id;
         theLot.rute_id = body.rute_id;
         
+        
         return await theLot.save();
     }
 

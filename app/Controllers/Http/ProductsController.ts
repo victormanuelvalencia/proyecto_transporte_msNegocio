@@ -35,6 +35,7 @@ export default class ProductsController {
         theProduct.description = body.description;
         theProduct.price = body.price;
         theProduct.weight = body.weight;
+        theProduct.lot_id = body.lot_id;
         return await theProduct.save();
     }
 
