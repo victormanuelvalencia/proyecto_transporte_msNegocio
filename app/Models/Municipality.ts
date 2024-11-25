@@ -4,6 +4,7 @@ import Department from './Department'
 import DistributionCenter from './DistributionCenter'
 import Operation from './Operation'
 import SecAddress from './SecAddress'
+import Restriction from './Restriction'
 
 export default class Municipality extends BaseModel {
   @column({ isPrimary: true })
@@ -47,4 +48,9 @@ export default class Municipality extends BaseModel {
     foreignKey: 'municipality_id'
   })
   public operation: HasMany<typeof Operation>
+
+  @hasMany(() => Restriction, {
+    foreignKey: 'municipality_id', // Establece la clave foránea en la tabla OwnerVehicle
+  })
+  public restriction: HasMany<typeof Restriction>;
 }

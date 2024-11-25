@@ -29,27 +29,7 @@ export default class FactureController {
       
         // Extraer los datos del cuerpo de la solicitud
         const body = request.body()
-  /*
-        // Validar que solo uno de los campos (fee_id o expense_id) esté presente
-      if (!!body.fee_id && !!body.expense_id) {
-        return response.status(400).send({
-          error: 'Una factura no puede tener ambos campos fee_id y expense_id. Especifique solo uno.',
-        })
-      }
 
-      if (!body.fee_id && !body.expense_id) {
-        return response.status(400).send({
-          error: 'Debe proporcionar al menos uno de los campos: fee_id o expense_id.',
-        })
-      }
-        // Cargar el modelo correspondiente según el campo proporcionado
-      if (body.fee_id) {
-        const fee = await Fee.findOrFail(body.fee_id)
-        body.value = fee.amount.toString() // Asignar el valor desde Fee
-      } else if (body.expense_id) {
-        const expense = await Expense.findOrFail(body.expense_id)
-        body.value = expense.ammount.toString() // Asignar el valor desde Expense
-        }*/
   
         // Crear la factura en la base de datos
         const theFacture = await Facture.create(body)
@@ -134,60 +114,6 @@ export default class FactureController {
             console.warn("No se pudo enviar el email de confirmación.");}
           return theFacture;
         }
-        
-        // Construir los datos necesarios para el microservicio de pagos
-       /* const paymentPayload = {
-          card_number: body.card_number,
-          exp_year: body.exp_year,
-          exp_month: body.exp_month,
-          cvc: body.cvc,
-          name: body.name,
-          last_name: body.last_name,
-          email: body.email,
-          phone: body.phone,
-          doc_number: body.doc_number,
-          city: body.city,
-          address: body.address,
-          cell_phone: body.cell_phone,
-          bill: body.bill,
-          value: body.value,
-        }*/
-  
-        // Enviar la factura al microservicio de pagos
-        /*const paymentResponse = await axios.post(
-
-          `${Env.get('MS_PAGOS')}/process-payment`,
-          paymentPayload
-        )
-  
-        if (paymentResponse.status !== 200) {
-          console.error('Error procesando el pago:', paymentResponse.data)
-          return response.status(500).send({
-            error: 'Hubo un error procesando el pago. Verifique la información.',
-            details: paymentResponse.data,
-          })
-        }
-  
-        // Retornar la factura y la respuesta del microservicio
-        return response.status(201).send({
-          message: 'Factura creada y procesada exitosamente.',
-          facture: theFacture,
-          payment: paymentResponse.data,
-        })
-      } catch (error) {
-        console.error('Error creando la factura:', error)
-  
-        if (error.response) {
-          return response.status(error.response.status).send({
-            error: error.response.data.error || 'Error procesando el pago.',
-          })
-        }
-  
-        return response.status(500).send({
-          error: 'Ocurrió un error inesperado.',
-          details: error.message,
-        })
-      }*/
       
     
     
