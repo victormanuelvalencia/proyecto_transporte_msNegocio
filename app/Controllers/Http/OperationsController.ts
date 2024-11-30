@@ -27,7 +27,7 @@ export default class OperationsController {
     //Es una funcion asincrona, que hace que se pueda hacer el create en paralelo 
     //con otras peticiones de manera simultanea
     public async create({ request }: HttpContextContract) {
-        await request.validate(OperationValidator)
+       // await request.validate(OperationValidator)
         const body = request.body(); //La request es toda la carta, se lee el contenido y queda en el body
         const theOperation: Operation = await Operation.create(body); //Esto le pide que espere 
         //El await es siempre para hacer consultas en bases de datos 

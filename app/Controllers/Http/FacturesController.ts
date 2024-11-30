@@ -29,31 +29,15 @@ export default class FactureController {
       
         // Extraer los datos del cuerpo de la solicitud
         const body = request.body()
-  /*
-        // Validar que solo uno de los campos (fee_id o expense_id) esté presente
-      if (!!body.fee_id && !!body.expense_id) {
-        return response.status(400).send({
-          error: 'Una factura no puede tener ambos campos fee_id y expense_id. Especifique solo uno.',
-        })
-      }
-
-      if (!body.fee_id && !body.expense_id) {
-        return response.status(400).send({
-          error: 'Debe proporcionar al menos uno de los campos: fee_id o expense_id.',
-        })
-      }
-        // Cargar el modelo correspondiente según el campo proporcionado
-      if (body.fee_id) {
-        const fee = await Fee.findOrFail(body.fee_id)
-        body.value = fee.amount.toString() // Asignar el valor desde Fee
-      } else if (body.expense_id) {
-        const expense = await Expense.findOrFail(body.expense_id)
-        body.value = expense.ammount.toString() // Asignar el valor desde Expense
-        }*/
-  
+      
         // Crear la factura en la base de datos
         const theFacture = await Facture.create(body)
-        await theFacture.load("fee", (expenseQuery) => 
+        
+        let user = ''
+        let ammount = 0
+        if(theFacture.fee_id != null && theFacture.expense_id == null){
+
+          await theFacture.load("fee", (expenseQuery) => 
                                                   {
                                                     expenseQuery.preload("contract", (expenseQuery) => 
                                                       {
@@ -63,8 +47,21 @@ export default class FactureController {
                                                           })
                                                       })
                                                   })
-        const user = theFacture.fee.contract.customer.naturalPerson?.user_id;
-        const theUserResponse = await axios.get(
+          user = theFacture.fee.contract.customer.naturalPerson?.user_id;
+          ammount = theFacture.fee.contract.total_amount;
+
+        } else if (theFacture.fee_id == null && theFacture.expense_id != null){
+
+            await theFacture.load('expense', (expenseQuery) => 
+                                                  {
+                                                    expenseQuery.preload('owner')})
+
+              
+          user = theFacture.expense.owner?.user_id
+          ammount = theFacture.expense.ammount
+        }
+        
+        let theUserResponse = await axios.get(
           `${Env.get("MS_SECURITY")}/users/${user}`,
           {
           headers: { Authorization: request.headers().authorization || "" },
@@ -98,16 +95,12 @@ export default class FactureController {
                   <th style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">Información</th>
                 </tr>
                 <tr>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">ID de la factura:</td>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">${theFacture.fee_id}</td>
-                </tr>
-                <tr>
                   <td style="padding: 10px; border-bottom: 1px solid #ddd;">Correo del usuario:</td>
                   <td style="padding: 10px; border-bottom: 1px solid #ddd;">${theUserResponse.data.email}</td>
                 </tr>
                 <tr>
                   <td style="padding: 10px; border-bottom: 1px solid #ddd;">Cantidad del contrato:</td>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">${theFacture.fee.contract.total_amount}</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">${ammount}</td>
                 </tr>
               </table>
               <p style="margin-top: 20px;">Si tiene alguna pregunta o necesita más información, no dude en ponerse en contacto con nosotros.</p>
@@ -133,62 +126,11 @@ export default class FactureController {
           if (!emailResponse.data || emailResponse.status !== 200) {
             console.warn("No se pudo enviar el email de confirmación.");}
           return theFacture;
-        }
-        
-        // Construir los datos necesarios para el microservicio de pagos
-       /* const paymentPayload = {
-          card_number: body.card_number,
-          exp_year: body.exp_year,
-          exp_month: body.exp_month,
-          cvc: body.cvc,
-          name: body.name,
-          last_name: body.last_name,
-          email: body.email,
-          phone: body.phone,
-          doc_number: body.doc_number,
-          city: body.city,
-          address: body.address,
-          cell_phone: body.cell_phone,
-          bill: body.bill,
-          value: body.value,
-        }*/
-  
-        // Enviar la factura al microservicio de pagos
-        /*const paymentResponse = await axios.post(
 
-          `${Env.get('MS_PAGOS')}/process-payment`,
-          paymentPayload
-        )
-  
-        if (paymentResponse.status !== 200) {
-          console.error('Error procesando el pago:', paymentResponse.data)
-          return response.status(500).send({
-            error: 'Hubo un error procesando el pago. Verifique la información.',
-            details: paymentResponse.data,
-          })
-        }
-  
-        // Retornar la factura y la respuesta del microservicio
-        return response.status(201).send({
-          message: 'Factura creada y procesada exitosamente.',
-          facture: theFacture,
-          payment: paymentResponse.data,
-        })
-      } catch (error) {
-        console.error('Error creando la factura:', error)
-  
-        if (error.response) {
-          return response.status(error.response.status).send({
-            error: error.response.data.error || 'Error procesando el pago.',
-          })
-        }
-  
-        return response.status(500).send({
-          error: 'Ocurrió un error inesperado.',
-          details: error.message,
-        })
-      }*/
-      
+        
+    }
+        
+ 
     
     
     public async update({ params, request }: HttpContextContract) {
