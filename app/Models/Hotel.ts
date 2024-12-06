@@ -4,6 +4,9 @@ import Administrator from './Administrator'
 import Expense from './Expense'
 
 export default class Hotel extends BaseModel {
+  @column({ isPrimary: true })
+  public id: number
+  
   @column()
   public total_nights:number
 

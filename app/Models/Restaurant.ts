@@ -4,6 +4,9 @@ import Administrator from './Administrator'
 import Expense from './Expense'
 
 export default class Restaurant extends BaseModel {
+  @column({ isPrimary: true })
+  public id: number
+  
   @column()
   public meal_type:string
 
