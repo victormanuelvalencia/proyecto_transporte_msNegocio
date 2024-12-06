@@ -16,9 +16,6 @@ export default class Vehicle extends BaseModel {
   @column()
   public type_vehicle: string
 
-  @column()
-  public max_load_capacity: number
-
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

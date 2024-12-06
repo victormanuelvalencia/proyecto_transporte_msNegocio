@@ -1,10 +1,9 @@
 
-import { column, HasMany, hasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
-import Service from './Service'
+import { BaseModel, column, HasMany, hasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import Administrator from './Administrator'
 import Expense from './Expense'
 
-export default class Restaurant extends Service {
+export default class Restaurant extends BaseModel {
   @column()
   public meal_type:string
 
