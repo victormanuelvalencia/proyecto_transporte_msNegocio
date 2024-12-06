@@ -12,23 +12,21 @@ export default class ShiftsController {
 
   public async find({ request, params }: HttpContextContract) {
     if (params.id) {
-        let theShift: Shift = await Shift.findOrFail(params.id)
-        await theShift.load('driver')
-        await theShift.load('owner')
-        return theShift;
+      let theShift: Shift = await Shift.findOrFail(params.id)
+      await theShift.load('driver')
+      await theShift.load('owner')
+      return theShift;
     } else {
-        const data = request.all()
-        if ("page" in data && "per_page" in data) { //aqui es una forma de listar por paginas distintos teatros
-            const page = request.input('page', 1);
-            const perPage = request.input("per_page", 20);
-            return await Shift.query().paginate(page, perPage)
-        } else {
-            return await Shift.query()
-        }
-
+      const data = request.all()
+      if ("page" in data && "per_page" in data) { //aqui es una forma de listar por paginas distintos teatros
+          const page = request.input('page', 1);
+          const perPage = request.input("per_page", 20);
+          return await Shift.query().paginate(page, perPage)
+      } else {
+        return await Shift.query()
+      }
     }
-
-}
+  }
 
   public async delete({ params, response }: HttpContextContract) {
     const shift = await Shift.findOrFail(params.id);

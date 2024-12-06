@@ -32,8 +32,7 @@ export default class Category extends BaseModel {
   public categoryChild: BelongsTo<typeof Category>;
 
   @hasMany(() => CategoryProduct, {
-    //nombre de la clave foranea que permite la relacion
-    foreignKey: 'category_id'
+    foreignKey: 'category_id',
   })
   public categoryProduct: HasMany<typeof CategoryProduct>
 }

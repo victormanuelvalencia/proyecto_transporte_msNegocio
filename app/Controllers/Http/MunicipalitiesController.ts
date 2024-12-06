@@ -21,9 +21,7 @@ export default class MunicipalitiesController {
             } else {
                 return await Municipality.query()
             }
-
         }
-
     }
 
     //Es una funcion asincrona, que hace que se pueda hacer el create en paralelo 
@@ -41,9 +39,7 @@ export default class MunicipalitiesController {
     public async update({ params, request }: HttpContextContract) {
         const theMunicipality: Municipality = await Municipality.findOrFail(params.id);
         const body = request.body();
-        theMunicipality.name = body.name;
-        theMunicipality.zip_code = body.zip_code;
-        theMunicipality.department_id = body.department_id;
+        theMunicipality.merge(body);
         return await theMunicipality.save();
     }
 

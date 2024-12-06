@@ -17,10 +17,7 @@ export default class Hotel extends Service {
   public administrator: HasOne<typeof Administrator>
 
   @hasMany(() => Expense, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'hotel_id'
   })
   public expense: HasMany<typeof Expense>
-  
-  
 }

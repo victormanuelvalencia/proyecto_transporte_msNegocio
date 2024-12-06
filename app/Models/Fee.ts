@@ -23,13 +23,11 @@ export default class Fee extends BaseModel {
   public updatedAt: DateTime
 
   @hasOne(() => Facture, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'fee_id'
   })
   public facture: HasOne<typeof Facture>
 
   @belongsTo(() => Contract, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'contract_id'
   })
   public contract: BelongsTo<typeof Contract>

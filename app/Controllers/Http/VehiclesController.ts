@@ -11,7 +11,6 @@ export default class VehiclesController {
             await theVehicle.load('rute')
             await theVehicle.load('driverVehicle')
             await theVehicle.load('ownerVehicle')
-            
             return theVehicle;
         } else {
             const data = request.all()

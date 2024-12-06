@@ -17,10 +17,9 @@ export default class FeeController {
             } else {
                 return await Fee.query()
             }
-
         }
-
     }
+
     public async create({ request }: HttpContextContract) {
         const body = request.body();
         const theFee: Fee = await Fee.create(body);
@@ -30,9 +29,7 @@ export default class FeeController {
     public async update({ params, request }: HttpContextContract) {
         const theFee: Fee = await Fee.findOrFail(params.id);
         const body = request.body();
-        theFee.contract_id = body.contract_id;
-        theFee.amount = body.amount;
-        theFee.due_date = body.due_date;
+        theFee.merge(body);
         return await theFee.save();
     }
 

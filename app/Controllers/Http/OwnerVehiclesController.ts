@@ -25,10 +25,7 @@ export default class OwnerVehiclesController {
         const theOwnerVehicle: OwnerVehicle = await OwnerVehicle.findOrFail(params.id);
         await request.validate(OwnerVehicleValidator);
         const body = request.body();
-        theOwnerVehicle.owner_id = body.owner_id;
-        theOwnerVehicle.vehicle_id = body.vehicle_id;
-        theOwnerVehicle.ownership_date = body.ownership_date;
-
+        theOwnerVehicle.merge(body)
         return await theOwnerVehicle.save();
     }
 

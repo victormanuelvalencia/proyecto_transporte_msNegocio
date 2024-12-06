@@ -22,7 +22,6 @@ export default class Company extends BaseModel {
   public updatedAt: DateTime
 
   @hasOne(() => NaturalPerson, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'company_id'
   })
   public naturalPerson: HasOne<typeof NaturalPerson>

@@ -7,7 +7,6 @@ import DriverValidator from "App/Validators/DriverValidator";
 
 export default class DriversController {
   public async find({ request, params }: HttpContextContract) {
-
     try {
       if (params.id) {
         //Creamos una instancia de driver
@@ -18,7 +17,6 @@ export default class DriversController {
             headers: { Authorization: request.headers().authorization || "" },
           }
         );
-
         if (!theUserResponse.data || Object.keys(theUserResponse.data).length === 0) {
           throw new Exception(
             "User not found",
@@ -52,7 +50,6 @@ export default class DriversController {
     try {
       //Extrae el cuerpo de la solicitud http, que contiene los datos del nuevo conductor
       const body = request.body(); 
-
       //Validar datos del usuario en el microservicio de seguridad
       const theUserResponse = await axios.get( // Realiza una solicitud get al microservicio de seguridad para verificar si existe el usuario asociado al user_id
         `${Env.get("MS_SECURITY")}/users/${body.user_id}`, // Construye la URL usando la variable de entorno MS_SECURITY y el user_id del cuerpo de la solicitud
@@ -61,7 +58,6 @@ export default class DriversController {
           headers: { Authorization: request.headers().authorization || "" }, 
         }
       );
-
       // Verifica si no se encontró información del usuario en la respuesta del microservicio
       // Devuelve una respuesta 404 si el usuario no fue encontrado
       if (!theUserResponse.data || Object.keys(theUserResponse.data).length === 0) { 
@@ -69,11 +65,9 @@ export default class DriversController {
           error: "User not found, verify user_id", 
         });
       }
-
       // Crear el conductor.
       await request.validate(DriverValidator); // Validador
       const theDriver = await Driver.create(body); // Crea un nuevo registro de conductor en la bd
-
       // Enviar correo de bienvenida
       // Realiza una solicitud POST (Ya que vamos a enviar un cuerpo) al ms de notificaciones
       const welcomeEmailResponse = await axios.post( 
@@ -88,10 +82,8 @@ export default class DriversController {
       if (welcomeEmailResponse.status !== 200) { 
         console.error("Error enviando el correo de bienvenida:", welcomeEmailResponse.data); 
       }
-      
       // Devuelve el conductor
       return theDriver;  
-      
     } catch (error) {
       if (error.messages) { // Si el error tiene mensajes de validación, devuelve esos mensajes al cliente.
         return response.badRequest({ errors: error.messages.errors }); // Devuelve una respuesta 400 (Solicitud inválida) con los errores de validación.

@@ -17,10 +17,9 @@ export default class CategoryController {
             } else {
                 return await Category.query()
             }
-
         }
-
     }
+
     public async create({ request }: HttpContextContract) {
         const body = request.body();
         const theCategory: Category = await Category.create(body);
@@ -30,8 +29,7 @@ export default class CategoryController {
     public async update({ params, request }: HttpContextContract) {
         const theCategory: Category = await Category.findOrFail(params.id);
         const body = request.body();
-        theCategory.name = body.name;
-        theCategory.description = body.description;
+        theCategory.merge(body);
         return await theCategory.save();
     }
 

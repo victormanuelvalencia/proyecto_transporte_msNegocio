@@ -25,25 +25,21 @@ export default class Municipality extends BaseModel {
   public updatedAt: DateTime
 
   @belongsTo(() => Department, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'department_id'
   })
   public department: BelongsTo<typeof Department>
 
   @hasMany(() => SecAddress, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'municipality_id'
   })
   public address: HasMany<typeof SecAddress>
 
   @hasMany(() => DistributionCenter, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'municipality_id'
   })
   public distributionCenter: HasMany<typeof DistributionCenter>
 
   @hasMany(() => Operation, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'municipality_id'
   })
   public operation: HasMany<typeof Operation>

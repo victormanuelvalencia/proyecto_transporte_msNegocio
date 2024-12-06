@@ -27,19 +27,16 @@ export default class Customer extends BaseModel {
   public updatedAt: DateTime
 
   @hasMany(() => Contract, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'customer_id'
   })
   public contract: HasMany<typeof Contract>
 
   @hasMany(() => Product, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'customer_id'
   })
   public product: HasMany<typeof Product>
 
   @hasOne(() => NaturalPerson, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'customer_id'
   })
   public naturalPerson: HasOne<typeof NaturalPerson>

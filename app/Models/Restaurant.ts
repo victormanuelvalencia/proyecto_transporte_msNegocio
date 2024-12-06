@@ -5,7 +5,6 @@ import Administrator from './Administrator'
 import Expense from './Expense'
 
 export default class Restaurant extends Service {
-  
   @column()
   public meal_type:string
 
@@ -15,10 +14,7 @@ export default class Restaurant extends Service {
   public administrator: HasOne<typeof Administrator>
 
   @hasMany(() => Expense, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'restaurant_id'
   })
   public expense: HasMany<typeof Expense>
-  
-  
 }

@@ -34,11 +34,7 @@ export default class ServicesController {
     public async update({ params, request }: HttpContextContract) {
         const theService: Service = await Service.findOrFail(params.id);
         const body = request.body();
-        theService.service_name = body.service_name;
-        theService.location = body.location;
-        theService.description = body.description;
-        theService.total_ammount = body.total_ammount;
-
+        theService.merge(body);
         return await theService.save();
     }
 

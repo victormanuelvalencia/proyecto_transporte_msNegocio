@@ -29,16 +29,12 @@ export default class Administrator extends BaseModel {
   public updatedAt: DateTime
 
   @belongsTo(() => Hotel, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'hotel_id'
   })
   public hotel: BelongsTo<typeof Hotel>
   
   @belongsTo(() => Restaurant, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'restaurant_id'
   })
   public restaurant: BelongsTo<typeof Restaurant>
- 
-
 }

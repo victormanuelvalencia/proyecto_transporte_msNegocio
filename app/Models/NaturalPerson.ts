@@ -24,7 +24,6 @@ export default class NaturalPerson extends BaseModel {
   @column()
   public customer_id:number
 
-
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
@@ -32,13 +31,11 @@ export default class NaturalPerson extends BaseModel {
   public updatedAt: DateTime
 
   @belongsTo(() => Company, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'company_id'
   })
   public company: BelongsTo<typeof Company>
 
   @belongsTo(() => Customer, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'customer_id'
   })
   public customer: BelongsTo<typeof Customer>

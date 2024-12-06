@@ -20,13 +20,11 @@ export default class CategoryProduct extends BaseModel {
   public updatedAt: DateTime
 
   @belongsTo(() => Category, {
-    //nombre de la clave foranea que permite la relacion, que hace referencia a la que creamos previamente
     foreignKey: 'category_id'
   })
   public category: BelongsTo<typeof Category>
 
   @belongsTo(() => Product, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'product_id'
   })
   public product: BelongsTo<typeof Product>
