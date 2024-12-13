@@ -62,13 +62,11 @@ export default class Facture extends BaseModel {
   public updatedAt: DateTime
 
   @belongsTo(() => Expense, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'expense_id'
   })
   public expense: BelongsTo<typeof Expense>
 
   @belongsTo(() => Fee, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'fee_id'
   })
   public fee: BelongsTo<typeof Fee>

@@ -44,11 +44,4 @@ export default class Owner extends BaseModel {
     foreignKey: 'owner_id',
   })
   public ownerVehicle: HasMany<typeof OwnerVehicle>;
- 
-  // @hasMany(() => Expense, {
-  //   //nombre de la clave foranea que permite la relacion
-  //   foreignKey: 'driver_id'
-  // })
-  // public expense: HasMany<typeof Expense>
-
 }

@@ -40,13 +40,7 @@ export default class RutesController {
     public async update({ params, request }: HttpContextContract) {
         const theRute: Rute = await Rute.findOrFail(params.id);
         const body = request.body();
-        theRute.distance = body.distance;
-        theRute.count_distribution_centers = body.count_distribution_centers;
-        theRute.average_time = body.average_time;
-        theRute.contract_id = body.contract_id;
-        theRute.vehicle_id = body.vehicle_id;
-
-
+        theRute.merge(body);
         return await theRute.save();
     }
 

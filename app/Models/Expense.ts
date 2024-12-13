@@ -31,45 +31,34 @@ export default class Expense extends BaseModel {
   @column()
   public owner_id:number
 
-  
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
-/*
-  @belongsTo(() => Service, {
-    //nombre de la clave foranea que permite la relacion
-    foreignKey: 'service_id'
-  })
-  public service: BelongsTo<typeof Service>
-*/ 
+
   @belongsTo(() => Hotel, {
-    //nombre de la clave foranea que permite la relacion
+
     foreignKey: 'hotel_id'
   })
   public hotel: BelongsTo<typeof Hotel>
 
   @belongsTo(() => Restaurant, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'restaurant_id'
   })
   public restaurant: BelongsTo<typeof Restaurant>
 
   @belongsTo(() => Driver, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'driver_id'
   })
   public driver: BelongsTo<typeof Driver>
 
   @belongsTo(() => Owner, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'owner_id'
   })
   public owner: BelongsTo<typeof Owner>
 
   @hasOne(() => Facture, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'expense_id'
   })
   public facture: HasOne<typeof Facture>

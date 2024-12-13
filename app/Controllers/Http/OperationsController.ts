@@ -19,9 +19,7 @@ export default class OperationsController {
             } else {
                 return await Operation.query()
             }
-
         }
-
     }
 
     //Es una funcion asincrona, que hace que se pueda hacer el create en paralelo 
@@ -39,11 +37,7 @@ export default class OperationsController {
     public async update({ params, request }: HttpContextContract) {
         const theOperation: Operation = await Operation.findOrFail(params.id);
         const body = request.body();
-        theOperation.date = body.date;
-        theOperation.operation_type = body.operation_type;
-        theOperation.state = body.state;
-        theOperation.municipality_id = body.municipality_id;
-        theOperation.vehicle_id = body.vehicle_id;
+        theOperation.merge(body);
         return await theOperation.save();
     }
 

@@ -18,10 +18,9 @@ export default class ContractController {
             } else {
                 return await Contract.query()
             }
-
         }
-
     }
+
     public async create({ request }: HttpContextContract) {
         const body = request.body();
         const theContract: Contract = await Contract.create(body);
@@ -31,9 +30,7 @@ export default class ContractController {
     public async update({ params, request }: HttpContextContract) {
         const theContract: Contract = await Contract.findOrFail(params.id);
         const body = request.body();
-        theContract.start_date = body.start_date;
-        theContract.end_date = body.end_date;
-        theContract.total_amount = body.total_amount;
+        theContract.merge(body);
         return await theContract.save();
     }
 

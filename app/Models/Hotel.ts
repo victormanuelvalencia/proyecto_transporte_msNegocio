@@ -1,10 +1,12 @@
 
-import { column, HasMany, hasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
-import Service from './Service'
+import { BaseModel, column, HasMany, hasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import Administrator from './Administrator'
 import Expense from './Expense'
 
-export default class Hotel extends Service {
+export default class Hotel extends BaseModel {
+  @column({ isPrimary: true })
+  public id: number
+  
   @column()
   public total_nights:number
 
@@ -17,10 +19,7 @@ export default class Hotel extends Service {
   public administrator: HasOne<typeof Administrator>
 
   @hasMany(() => Expense, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'hotel_id'
   })
   public expense: HasMany<typeof Expense>
-  
-  
 }

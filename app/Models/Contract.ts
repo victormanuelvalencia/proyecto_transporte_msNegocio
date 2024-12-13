@@ -27,19 +27,16 @@ export default class Contract extends BaseModel {
   public updatedAt: DateTime
 
   @hasMany(() => Fee, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'contract_id'
   })
   public fee: HasMany<typeof Fee>
 
   @belongsTo(() => Customer, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'customer_id'
   })
   public customer: BelongsTo<typeof Customer>
 
   @hasMany(() => Rute, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'contract_id'
   })
   public rute: HasMany<typeof Rute>

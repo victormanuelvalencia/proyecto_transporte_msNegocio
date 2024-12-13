@@ -17,9 +17,7 @@ export default class DepartmentsController {
             } else {
                 return await Department.query()
             }
-
         }
-
     }
 
     //Es una funcion asincrona, que hace que se pueda hacer el create en paralelo 
@@ -34,9 +32,7 @@ export default class DepartmentsController {
     public async update({ params, request }: HttpContextContract) {
         const theDepartment: Department = await Department.findOrFail(params.id);
         const body = request.body();
-        theDepartment.name = body.name;
-        theDepartment.zip_code = body.zip_code;
-
+        theDepartment.merge(body);
         return await theDepartment.save();
     }
 

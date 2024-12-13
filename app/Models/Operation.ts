@@ -29,13 +29,11 @@ export default class Operation extends BaseModel {
   public updatedAt: DateTime
 
   @belongsTo(() => Vehicle, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'vehicle_id'
   })
   public vehicle: BelongsTo<typeof Vehicle>
 
   @belongsTo(() => Municipality, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'municipality_id'
   })
   public municipality: BelongsTo<typeof Municipality>

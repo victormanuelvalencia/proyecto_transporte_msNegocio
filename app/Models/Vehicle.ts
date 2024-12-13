@@ -16,9 +16,6 @@ export default class Vehicle extends BaseModel {
   @column()
   public type_vehicle: string
 
-  @column()
-  public max_load_capacity: number
-
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
@@ -26,18 +23,17 @@ export default class Vehicle extends BaseModel {
   public updatedAt: DateTime
 
   @hasMany(() => Operation, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'vehicle_id'
   })
   public operation: HasMany<typeof Operation>
 
   @hasMany(() => OwnerVehicle, {
-    foreignKey: 'vehicle_id', // Establece la clave foránea en la tabla OwnerVehicle
+    foreignKey: 'vehicle_id',
   })
   public ownerVehicle: HasMany<typeof OwnerVehicle>;
 
   @hasMany(() => Insurance, {
-    foreignKey: 'vehicle_id', // Establece la clave foránea en la tabla OwnerVehicle
+    foreignKey: 'vehicle_id',
   })
   public insurance: HasMany<typeof Insurance>;
 
@@ -47,7 +43,6 @@ export default class Vehicle extends BaseModel {
   public driverVehicle: HasMany<typeof DriverVehicle>
 
   @hasMany(() => Rute, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'vehicle_id'
   })
   public rute: HasMany<typeof Rute>

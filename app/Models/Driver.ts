@@ -9,7 +9,7 @@ export default class Driver extends BaseModel {
   public id: number;
 
   @column()
-  public license_number: string; // Atributo específico para conductores
+  public license_number: string; 
   
   @column()
   public license_expiry: Date
@@ -24,7 +24,6 @@ export default class Driver extends BaseModel {
   public shift: HasMany<typeof Shift>
 
   @hasMany(() => Expense, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'driver_id'
   })
   public expense: HasMany<typeof Expense>
