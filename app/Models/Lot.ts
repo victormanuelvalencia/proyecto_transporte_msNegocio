@@ -16,7 +16,6 @@ export default class Lot extends BaseModel {
   
   @column()
   public rute_id:number
-  
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -25,19 +24,16 @@ export default class Lot extends BaseModel {
   public updatedAt: DateTime
 
   @hasMany(() => Product, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'lot_id'
   })
   public product: HasMany<typeof Product>
 
   @belongsTo(() => DirListOrder, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'dir_list_order_id'
   })
   public dirListOrder: BelongsTo<typeof DirListOrder>
 
   @belongsTo(() => Rute, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'rute_id'
   })
   public rute: BelongsTo<typeof Rute>

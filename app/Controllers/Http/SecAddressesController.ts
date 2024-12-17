@@ -17,9 +17,7 @@ export default class SecAddressesController {
             } else {
                 return await SecAddress.query()
             }
-
         }
-
     }
 
     //Es una funcion asincrona, que hace que se pueda hacer el create en paralelo 
@@ -30,18 +28,13 @@ export default class SecAddressesController {
         const theSecAddress: SecAddress = await SecAddress.create(body); //Esto le pide que espere 
         //El await es siempre para hacer consultas en bases de datos 
         //Lo que hace es esperar que el teatro responda
-
         return theSecAddress;
     }
 
     public async update({ params, request }: HttpContextContract) {
         const theSecAddress: SecAddress = await SecAddress.findOrFail(params.id);
         const body = request.body();
-        theSecAddress.street = body.street;
-        theSecAddress.street_number = body.street_number;
-        theSecAddress.reference_point = body.reference_point;
-        theSecAddress.municipality_id = body.municipality_id;
-        theSecAddress.distribution_center_id = body.distribution_center_id;
+        theSecAddress.merge(body);
         return await theSecAddress.save();
     }
 

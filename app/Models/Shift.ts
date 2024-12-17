@@ -34,7 +34,6 @@ export default class Shift extends BaseModel {
   public driver: BelongsTo<typeof Driver>;
 
   @belongsTo(() => Owner, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'owner_id'
   })
   public owner: BelongsTo<typeof Owner>

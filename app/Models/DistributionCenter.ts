@@ -24,13 +24,11 @@ export default class DistributionCenter extends BaseModel {
   public updatedAt: DateTime
 
   @hasOne(() => SecAddress, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'distribution_center_id'
   })
   public address: HasOne<typeof SecAddress>
   
   @belongsTo(() => Municipality, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'municipality_id'
   })
   public municipality: BelongsTo<typeof Municipality>

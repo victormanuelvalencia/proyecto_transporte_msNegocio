@@ -22,9 +22,7 @@ export default class ExpensesController {
             } else {
                 return await Expense.query()
             }
-
         }
-
     }
 
     //Es una funcion asincrona, que hace que se pueda hacer el create en paralelo 
@@ -42,16 +40,8 @@ export default class ExpensesController {
     public async update({ params, request }: HttpContextContract) {
         const theExpense: Expense = await Expense.findOrFail(params.id);
         const body = request.body();
-        theExpense.ammount = body.ammount;
-        theExpense.description = body.description;
-        theExpense.status = body.status;
-        theExpense.hotel_id = body.hotel_id;
-        theExpense.restaurant_id = body.restaurant_id;
-        theExpense.owner_id = body.owner_id;
-        theExpense.driver_id = body.driver_id;
-
-
-        return await theExpense.save();
+        theExpense.merge(body);
+        await theExpense.save();
     }
 
     public async delete({ params, response }: HttpContextContract) {

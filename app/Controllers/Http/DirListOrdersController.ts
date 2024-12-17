@@ -8,7 +8,6 @@ export default class DirListOrdersController {
             let theDirListOrder: DirListOrder = await DirListOrder.findOrFail(params.id)
             await theDirListOrder.load('rute')
             await theDirListOrder.load('address')
-
             return theDirListOrder;
         } else {
             const data = request.all()
@@ -19,9 +18,7 @@ export default class DirListOrdersController {
             } else {
                 return await DirListOrder.query()
             }
-
         }
-
     }
 
     //Es una funcion asincrona, que hace que se pueda hacer el create en paralelo 
@@ -39,12 +36,7 @@ export default class DirListOrdersController {
     public async update({ params, request }: HttpContextContract) {
         const theDirListOrder: DirListOrder = await DirListOrder.findOrFail(params.id);
         const body = request.body();
-        theDirListOrder.origin = body.origin;
-        theDirListOrder.destination = body.destination;
-        theDirListOrder.rute_id = body.rute_id;
-        theDirListOrder.sec_address_id = body.sec_address_id;
-
-
+        theDirListOrder.merge(body);
         return await theDirListOrder.save();
     }
 

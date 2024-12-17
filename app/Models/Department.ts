@@ -19,7 +19,6 @@ export default class Department extends BaseModel {
   public updatedAt: DateTime
 
   @hasMany(() => Municipality, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'department_id'
   })
   public municipality: HasMany<typeof Municipality>

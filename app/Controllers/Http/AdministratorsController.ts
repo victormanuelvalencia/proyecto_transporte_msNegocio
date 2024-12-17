@@ -6,8 +6,7 @@ import Env from "@ioc:Adonis/Core/Env";
 import AdministratorValidator from "App/Validators/AdministratorValidator";
 
 export default class AdministratorsController {
-  public async find({ request, params }: HttpContextContract) {
-     
+  public async find({ request, params }: HttpContextContract) {  
     try {
       if (params.id) {
         //Creamos una instancia de administrator
@@ -52,7 +51,6 @@ export default class AdministratorsController {
       try {
         //Extrae el cuerpo de la solicitud http, que contiene los datos del nuevo conductor
         const body = request.body(); 
-  
         //Validar datos del usuario en el microservicio de seguridad
         const theUserResponse = await axios.get( // Realiza una solicitud get al microservicio de seguridad para verificar si existe el usuario asociado al user_id
           `${Env.get("MS_SECURITY")}/users/${body.user_id}`, // Construye la URL usando la variable de entorno MS_SECURITY y el user_id del cuerpo de la solicitud
@@ -61,7 +59,6 @@ export default class AdministratorsController {
             headers: { Authorization: request.headers().authorization || "" }, 
           }
         );
-  
         // Verifica si no se encontró información del usuario en la respuesta del microservicio
         // Devuelve una respuesta 404 si el usuario no fue encontrado
         if (!theUserResponse.data || Object.keys(theUserResponse.data).length === 0) { 
@@ -69,11 +66,9 @@ export default class AdministratorsController {
             error: "User not found, verify user_id", 
           });
         }
-  
         // Crear el conductor.
         await request.validate(AdministratorValidator); // Validador
         const theAdministrator = await Administrator.create(body); // Crea un nuevo registro de conductor en la bd
-  
         // Enviar correo de bienvenida
         // Realiza una solicitud POST (Ya que vamos a enviar un cuerpo) al ms de notificaciones
         const welcomeEmailResponse = await axios.post( 
@@ -88,7 +83,6 @@ export default class AdministratorsController {
         if (welcomeEmailResponse.status !== 200) { 
           console.error("Error enviando el correo de bienvenida:", welcomeEmailResponse.data); 
         }
-        
         // Devuelve el conductor
         return theAdministrator;  
         
@@ -106,23 +100,13 @@ export default class AdministratorsController {
   public async update({ params, request }: HttpContextContract) {
     const theAdministrator: Administrator = await Administrator.findOrFail(params.id); //busque el teatro con el identificador
     const body = request.body(); //leer lo que viene en la carta
-
-    theAdministrator.phone_number = body.phone_number;
-    theAdministrator.active = body.active;
-    theAdministrator.hotel_id = body.hotel_id
-    theAdministrator.restaurant_id = body.restaurant_id
-    theAdministrator.user_id = body.user_id;
-
-
-
+    theAdministrator.merge(body);
     return await theAdministrator.save(); //se confirma a la base de datos el cambio
   }
 
   public async delete({ params, response }: HttpContextContract) {
-    //
     const theTheater: Administrator = await Administrator.findOrFail(params.id); //buscarlo
-    response.status(204);
-
-    return await theTheater.delete(); //el teatro que se encontro, eliminelo
+      response.status(204);
+      return await theTheater.delete(); //el teatro que se encontro, eliminelo
   }
 }

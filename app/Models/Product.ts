@@ -33,19 +33,16 @@ export default class Product extends BaseModel {
   public updatedAt: DateTime
 
   @hasMany(() => CategoryProduct, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'product_id'
   })
   public categoryProduct: HasMany<typeof CategoryProduct>
 
   @belongsTo(() => Lot, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'lot_id'
   })
   public lot: BelongsTo<typeof Lot>
 
   @belongsTo(() => Customer, {
-    //nombre de la clave foranea que permite la relacion
     foreignKey: 'customer_id'
   })
   public customer: BelongsTo<typeof Customer>

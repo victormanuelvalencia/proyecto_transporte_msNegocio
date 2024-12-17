@@ -2,28 +2,29 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Facture from 'App/Models/Facture'
 import axios from "axios";
 import Env from "@ioc:Adonis/Core/Env";
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7404468652f59efbf4a2ef9de8c00f2e4ed02acc
 
 export default class FactureController {
-    public async find({ request, params }: HttpContextContract) {
-        if (params.id) {
-            let theFacture: Facture = await Facture.findOrFail(params.id)
-            await theFacture.load("expense")
-            await theFacture.load("fee")
-            return theFacture;
-        } else {
-            const data = request.all()
-            if ("page" in data && "per_page" in data) {
-                const page = request.input('page', 1);
-                const perPage = request.input("per_page", 20);
-                return await Facture.query().paginate(page, perPage)
-            } else {
-                return await Facture.query()
-            }
-
-        }
-
+  public async find({ request, params }: HttpContextContract) {
+    if (params.id) {
+      let theFacture: Facture = await Facture.findOrFail(params.id)
+        await theFacture.load("expense")
+        await theFacture.load("fee")
+        return theFacture;
+    } else {
+      const data = request.all()
+      if ("page" in data && "per_page" in data) {
+        const page = request.input('page', 1);
+        const perPage = request.input("per_page", 20);
+        return await Facture.query().paginate(page, perPage)
+      } else {
+        return await Facture.query()
+      }
     }
+<<<<<<< HEAD
     public async create({ request }: HttpContextContract) {
       
         // Extraer los datos del cuerpo de la solicitud
@@ -37,15 +38,25 @@ export default class FactureController {
         if(theFacture.fee_id != null && theFacture.expense_id == null){
 
           await theFacture.load("fee", (expenseQuery) => 
+=======
+  }
+
+  public async create({ request }: HttpContextContract) {
+    // Extraer los datos del cuerpo de la solicitud
+    const body = request.body()
+    // Crear la factura en la base de datos
+    const theFacture = await Facture.create(body)
+    await theFacture.load("fee", (expenseQuery) => 
+                                              {
+                                                expenseQuery.preload("contract", (expenseQuery) => 
+>>>>>>> 7404468652f59efbf4a2ef9de8c00f2e4ed02acc
                                                   {
-                                                    expenseQuery.preload("contract", (expenseQuery) => 
+                                                    expenseQuery.preload("customer", (expenseQuery) => 
                                                       {
-                                                        expenseQuery.preload("customer", (expenseQuery) => 
-                                                          {
-                                                            expenseQuery.preload("naturalPerson")
-                                                          })
+                                                        expenseQuery.preload("naturalPerson")
                                                       })
                                                   })
+<<<<<<< HEAD
           user = theFacture.fee.contract.customer.naturalPerson?.user_id;
           ammount = theFacture.fee.contract.total_amount;
 
@@ -75,8 +86,18 @@ export default class FactureController {
           headers: { Authorization: request.headers().authorization || "" },
           }
       );
+=======
+                                              })
+    const user = theFacture.fee.contract.customer.naturalPerson?.user_id;
+    const theUserResponse = await axios.get(
+      `${Env.get("MS_SECURITY")}/users/${user}`,
+      {
+      headers: { Authorization: request.headers().authorization || "" },
+      }
+    );
+>>>>>>> 7404468652f59efbf4a2ef9de8c00f2e4ed02acc
 
-      //PONER IF..
+    //PONER IF..
 
     if (!theUserResponse.data.email) {
       //VERIFICAR QUE SI ENCONTRÓ EL EMAIL DE ESE USER
@@ -121,10 +142,16 @@ export default class FactureController {
             </div>
           </div>
         </div>
-      `
-  };
-  
+        `
+    };
+    
+    // Llamar al microservicio de notificaciones
+    const emailResponse = await axios.post(
+      `${Env.get("MS_NOTIFICATIONS")}/send-email`,
+      emailPayload
+    );
 
+<<<<<<< HEAD
           // Llamar al microservicio de notificaciones
           const emailResponse = await axios.post(
            `${Env.get("MS_NOTIFICATIONS")}/send-email`,
@@ -171,4 +198,39 @@ export default class FactureController {
             response.status(204);
             return await theFacture.delete();
     }
+=======
+    if (!emailResponse.data || emailResponse.status !== 200) {
+      console.warn("No se pudo enviar el email de confirmación.");
+    }
+      return theFacture;
+  }
+      
+  public async update({ params, request }: HttpContextContract) {
+      const theFacture: Facture = await Facture.findOrFail(params.id);
+      const body = request.body();
+      theFacture.card_number = body.card_number;
+      theFacture.exp_year = body.exp_year;
+      theFacture.exp_month = body.exp_month;
+      theFacture.cvc = body.cvc;
+      theFacture.name = body.name;
+      theFacture.last_name = body.last_name;
+      theFacture.email = body.email;
+      theFacture.phone = body.phone;
+      theFacture.doc_number = body.doc_number;
+      theFacture.city = body.city;
+      theFacture.address = body.address;
+      theFacture.cell_phone = body.cell_phone;
+      theFacture.bill = body.bill;
+      theFacture.value = body.value;
+      theFacture.expense_id = body.expense_id;
+      theFacture.fee_id = body.fee_id;
+      return await theFacture.save();
+  }
+  
+  public async delete({ params, response }: HttpContextContract) {
+      const theFacture: Facture = await Facture.findOrFail(params.id);
+        response.status(204);
+        return await theFacture.delete();
+  }
+>>>>>>> 7404468652f59efbf4a2ef9de8c00f2e4ed02acc
 }

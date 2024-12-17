@@ -18,10 +18,9 @@ export default class ProductsController {
             } else {
                 return await Product.query()
             }
-
         }
-
     }
+
     public async create({ request }: HttpContextContract) {
         const body = request.body();
         const theProduct: Product = await Product.create(body);
@@ -31,11 +30,7 @@ export default class ProductsController {
     public async update({ params, request }: HttpContextContract) {
         const theProduct: Product = await Product.findOrFail(params.id);
         const body = request.body();
-        theProduct.name = body.name;
-        theProduct.description = body.description;
-        theProduct.price = body.price;
-        theProduct.weight = body.weight;
-        theProduct.lot_id = body.lot_id;
+        theProduct.merge(body);
         return await theProduct.save();
     }
 

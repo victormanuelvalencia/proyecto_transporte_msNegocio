@@ -19,10 +19,9 @@ export default class CustomerController {
             } else {
                 return await Customer.query()
             }
-
         }
-
     }
+
     public async create({ request }: HttpContextContract) {
         const body = request.body();
         const theCustomer: Customer = await Customer.create(body);
@@ -32,8 +31,12 @@ export default class CustomerController {
     public async update({ params, request }: HttpContextContract) {
         const theCustomer: Customer = await Customer.findOrFail(params.id);
         const body = request.body();
+<<<<<<< HEAD
         theCustomer.phone = body.phone;
         theCustomer.address = body.address
+=======
+        theCustomer.merge(body);
+>>>>>>> 7404468652f59efbf4a2ef9de8c00f2e4ed02acc
         return await theCustomer.save();
     }
 

@@ -18,9 +18,7 @@ export default class DistributionCentersController {
             } else {
                 return await DistributionCenter.query()
             }
-
         }
-
     }
 
     //Es una funcion asincrona, que hace que se pueda hacer el create en paralelo 
@@ -38,10 +36,7 @@ export default class DistributionCentersController {
     public async update({ params, request }: HttpContextContract) {
         const theDistributionCenter: DistributionCenter = await DistributionCenter.findOrFail(params.id);
         const body = request.body();
-        theDistributionCenter.name = body.name;
-        theDistributionCenter.vehicles = body.vehicles;
-        theDistributionCenter.municipality_id = body.municipality_id;
-
+        theDistributionCenter.merge(body);
         return await theDistributionCenter.save();
     }
 
