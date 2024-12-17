@@ -2,8 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Facture from 'App/Models/Facture'
 import axios from "axios";
 import Env from "@ioc:Adonis/Core/Env";
-import Fee from 'App/Models/Fee';
-import Expense from 'App/Models/Expense';
+
 
 export default class FactureController {
     public async find({ request, params }: HttpContextContract) {
@@ -50,6 +49,9 @@ export default class FactureController {
           user = theFacture.fee.contract.customer.naturalPerson?.user_id;
           ammount = theFacture.fee.contract.total_amount;
 
+          console.log(user);
+          
+
         } else if (theFacture.fee_id == null && theFacture.expense_id != null){
 
             await theFacture.load('expense', (expenseQuery) => 
@@ -59,6 +61,12 @@ export default class FactureController {
               
           user = theFacture.expense.owner?.user_id
           ammount = theFacture.expense.ammount
+
+          console.log(user);
+          console.log(theFacture.expense.owner);
+          
+          console.log(theFacture.expense.driver);
+          
         }
         
         let theUserResponse = await axios.get(

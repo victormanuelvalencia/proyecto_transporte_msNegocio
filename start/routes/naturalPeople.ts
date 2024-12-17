@@ -1,8 +1,8 @@
 import Route from '@ioc:Adonis/Core/Route'
 Route.group(() => {
-    Route.get("/NaturalPeople", "NaturalPersonController.find");
-    Route.get("/NaturalPeople/:id", "NaturalPersonController.find");
-    Route.post("/NaturalPeople", "NaturalPersonController.create");
-    Route.put("/NaturalPeople/:id", "NaturalPersonController.update");
-    Route.delete("/NaturalPeople/:id", "NaturalPersonController.delete");
+    Route.get("/natural-person", "NaturalPersonController.find");
+    Route.get("/natural-person/:id", "NaturalPersonController.find");
+    Route.post("/natural-person", "NaturalPersonController.create");
+    Route.put("/natural-person/:id", "NaturalPersonController.update");
+    Route.delete("/natural-person/:id", "NaturalPersonController.delete");
 })

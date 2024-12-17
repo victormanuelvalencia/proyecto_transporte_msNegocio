@@ -32,8 +32,6 @@ export default class CustomerController {
     public async update({ params, request }: HttpContextContract) {
         const theCustomer: Customer = await Customer.findOrFail(params.id);
         const body = request.body();
-        theCustomer.name = body.name;
-        theCustomer.email = body.email;
         theCustomer.phone = body.phone;
         theCustomer.address = body.address
         return await theCustomer.save();
