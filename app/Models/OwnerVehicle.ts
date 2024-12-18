@@ -13,9 +13,6 @@ export default class OwnerVehicle extends BaseModel {
   @column()
   public vehicle_id: number;
 
-  @column()
-  public ownership_date: Date;
-
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
 

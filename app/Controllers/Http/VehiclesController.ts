@@ -1,6 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Vehicle from 'App/Models/Vehicle';
-import VehicleValidator from 'App/Validators/VehicleValidator';
 
 export default class VehiclesController {
     public async find({ request, params }: HttpContextContract) {
@@ -27,7 +26,7 @@ export default class VehiclesController {
     //Es una funcion asincrona, que hace que se pueda hacer el create en paralelo 
     //con otras peticiones de manera simultanea
     public async create({ request }: HttpContextContract) {
-        await request.validate(VehicleValidator)
+        //await request.validate(VehicleValidator)
         const body = request.body(); //La request es toda la carta, se lee el contenido y queda en el body
         const theVehicle: Vehicle = await Vehicle.create(body); //Esto le pide que espere 
         //El await es siempre para hacer consultas en bases de datos 

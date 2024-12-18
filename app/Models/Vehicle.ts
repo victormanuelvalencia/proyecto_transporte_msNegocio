@@ -1,5 +1,4 @@
-import { DateTime } from 'luxon'
-import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Operation from './Operation'
 import OwnerVehicle from './OwnerVehicle'
 import DriverVehicle from './DriverVehicle'
@@ -16,11 +15,13 @@ export default class Vehicle extends BaseModel {
   @column()
   public type_vehicle: string
 
-  @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
+  @column()
+  public insurance_id: string
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
+  @belongsTo(() => Insurance, {
+    foreignKey: 'insurance_id',  // Establece la relación de clave foránea
+  })
+  public insurance: BelongsTo<typeof Insurance>
 
   @hasMany(() => Operation, {
     foreignKey: 'vehicle_id'
@@ -31,11 +32,6 @@ export default class Vehicle extends BaseModel {
     foreignKey: 'vehicle_id',
   })
   public ownerVehicle: HasMany<typeof OwnerVehicle>;
-
-  @hasMany(() => Insurance, {
-    foreignKey: 'vehicle_id',
-  })
-  public insurance: HasMany<typeof Insurance>;
 
   @hasMany(() => DriverVehicle, {
     foreignKey: 'vehicle_id'

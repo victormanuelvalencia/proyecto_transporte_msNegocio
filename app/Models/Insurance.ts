@@ -1,5 +1,4 @@
-import { DateTime } from 'luxon';
-import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm';
+import { BaseModel, column, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm';
 import Vehicle from './Vehicle';
 
 export default class Insurance extends BaseModel {
@@ -10,22 +9,10 @@ export default class Insurance extends BaseModel {
   public policy_number: string;
 
   @column()
-  public provider: string;
-
-  @column()
   public expiration_date: Date;
 
-  @column()
-  public vehicle_id: number;
-
-  @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime;
-
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime;
-
-  @belongsTo(() => Vehicle, {
-    foreignKey: 'vehicle_id',
+  @hasOne(() => Vehicle, {
+    foreignKey: 'insurance_id',  // Establece la relación de clave foránea
   })
-  public vehicle: BelongsTo<typeof Vehicle>;
+  public vehicle: HasOne<typeof Vehicle>
 }

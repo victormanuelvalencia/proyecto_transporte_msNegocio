@@ -8,6 +8,7 @@ export default class Vehicles extends BaseSchema {
       table.increments('id') // ID auto incremental
       table.string('license_plate').notNullable() // Placa del vehículo
       table.string('type_vehicle').notNullable() // Tipo de vehículo
+      table.integer('insurance_id').unsigned().nullable().references('id').inTable('insurances').onDelete('CASCADE')
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })
