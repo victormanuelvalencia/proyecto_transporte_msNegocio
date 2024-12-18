@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Fee from 'App/Models/Fee'
+import Ws from 'App/Services/Ws';
 
 export default class FeeController {
     public async find({ request, params }: HttpContextContract) {
@@ -38,4 +39,13 @@ export default class FeeController {
             response.status(204);
             return await theFee.delete();
     }
+
+    public async notificar({ response }: HttpContextContract) {
+                Ws.io.emit('notifications', { message: 'end process bioinformatic backend' })
+                response.status(200);
+                return {
+                    "message":"ok"
+                };
+            }
+        
 }

@@ -5,6 +5,7 @@ export default class VehicleValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
+
     license_plate: schema.string(),
     type_vehicle: schema.string(),
   });

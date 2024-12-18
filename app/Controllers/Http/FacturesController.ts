@@ -2,6 +2,10 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Facture from 'App/Models/Facture'
 import axios from "axios";
 import Env from "@ioc:Adonis/Core/Env";
+<<<<<<< HEAD
+
+=======
+>>>>>>> 7404468652f59efbf4a2ef9de8c00f2e4ed02acc
 
 export default class FactureController {
   public async find({ request, params }: HttpContextContract) {
@@ -20,6 +24,21 @@ export default class FactureController {
         return await Facture.query()
       }
     }
+<<<<<<< HEAD
+    public async create({ request }: HttpContextContract) {
+      
+        // Extraer los datos del cuerpo de la solicitud
+        const body = request.body()
+      
+        // Crear la factura en la base de datos
+        const theFacture = await Facture.create(body)
+        
+        let user = ''
+        let ammount = 0
+        if(theFacture.fee_id != null && theFacture.expense_id == null){
+
+          await theFacture.load("fee", (expenseQuery) => 
+=======
   }
 
   public async create({ request }: HttpContextContract) {
@@ -30,12 +49,44 @@ export default class FactureController {
     await theFacture.load("fee", (expenseQuery) => 
                                               {
                                                 expenseQuery.preload("contract", (expenseQuery) => 
+>>>>>>> 7404468652f59efbf4a2ef9de8c00f2e4ed02acc
                                                   {
                                                     expenseQuery.preload("customer", (expenseQuery) => 
                                                       {
                                                         expenseQuery.preload("naturalPerson")
                                                       })
                                                   })
+<<<<<<< HEAD
+          user = theFacture.fee.contract.customer.naturalPerson?.user_id;
+          ammount = theFacture.fee.contract.total_amount;
+
+          console.log(user);
+          
+
+        } else if (theFacture.fee_id == null && theFacture.expense_id != null){
+
+            await theFacture.load('expense', (expenseQuery) => 
+                                                  {
+                                                    expenseQuery.preload('owner')})
+
+              
+          user = theFacture.expense.owner?.user_id
+          ammount = theFacture.expense.ammount
+
+          console.log(user);
+          console.log(theFacture.expense.owner);
+          
+          console.log(theFacture.expense.driver);
+          
+        }
+        
+        let theUserResponse = await axios.get(
+          `${Env.get("MS_SECURITY")}/users/${user}`,
+          {
+          headers: { Authorization: request.headers().authorization || "" },
+          }
+      );
+=======
                                               })
     const user = theFacture.fee.contract.customer.naturalPerson?.user_id;
     const theUserResponse = await axios.get(
@@ -44,6 +95,7 @@ export default class FactureController {
       headers: { Authorization: request.headers().authorization || "" },
       }
     );
+>>>>>>> 7404468652f59efbf4a2ef9de8c00f2e4ed02acc
 
     //PONER IF..
 
@@ -72,16 +124,12 @@ export default class FactureController {
                   <th style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd; font-weight: bold;">Información</th>
                 </tr>
                 <tr>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">ID de la factura:</td>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">${theFacture.fee_id}</td>
-                </tr>
-                <tr>
                   <td style="padding: 10px; border-bottom: 1px solid #ddd;">Correo del usuario:</td>
                   <td style="padding: 10px; border-bottom: 1px solid #ddd;">${theUserResponse.data.email}</td>
                 </tr>
                 <tr>
                   <td style="padding: 10px; border-bottom: 1px solid #ddd;">Cantidad del contrato:</td>
-                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">${theFacture.fee.contract.total_amount}</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #ddd;">${ammount}</td>
                 </tr>
               </table>
               <p style="margin-top: 20px;">Si tiene alguna pregunta o necesita más información, no dude en ponerse en contacto con nosotros.</p>
@@ -103,6 +151,54 @@ export default class FactureController {
       emailPayload
     );
 
+<<<<<<< HEAD
+          // Llamar al microservicio de notificaciones
+          const emailResponse = await axios.post(
+           `${Env.get("MS_NOTIFICATIONS")}/send-email`,
+            emailPayload
+          );
+
+          if (!emailResponse.data || emailResponse.status !== 200) {
+            console.warn("No se pudo enviar el email de confirmación.");}
+          return theFacture;
+
+        
+    }
+        
+ 
+    
+    
+    public async update({ params, request }: HttpContextContract) {
+        const theFacture: Facture = await Facture.findOrFail(params.id);
+        const body = request.body();
+    
+        theFacture.card_number = body.card_number;
+        theFacture.exp_year = body.exp_year;
+        theFacture.exp_month = body.exp_month;
+        theFacture.cvc = body.cvc;
+        theFacture.name = body.name;
+        theFacture.last_name = body.last_name;
+        theFacture.email = body.email;
+        theFacture.phone = body.phone;
+        theFacture.doc_number = body.doc_number;
+        theFacture.city = body.city;
+        theFacture.address = body.address;
+        theFacture.cell_phone = body.cell_phone;
+        theFacture.bill = body.bill;
+        theFacture.value = body.value;
+        theFacture.expense_id = body.expense_id;
+        theFacture.fee_id = body.fee_id;
+    
+        return await theFacture.save();
+    }
+    
+
+    public async delete({ params, response }: HttpContextContract) {
+        const theFacture: Facture = await Facture.findOrFail(params.id);
+            response.status(204);
+            return await theFacture.delete();
+    }
+=======
     if (!emailResponse.data || emailResponse.status !== 200) {
       console.warn("No se pudo enviar el email de confirmación.");
     }
@@ -136,4 +232,5 @@ export default class FactureController {
         response.status(204);
         return await theFacture.delete();
   }
+>>>>>>> 7404468652f59efbf4a2ef9de8c00f2e4ed02acc
 }

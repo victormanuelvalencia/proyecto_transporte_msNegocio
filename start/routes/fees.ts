@@ -5,4 +5,5 @@ Route.group(() => {
     Route.post("/fees", "FeesController.create");
     Route.put("/fees/:id", "FeesController.update");
     Route.delete("/fees/:id", "FeesController.delete");
-})
+    Route.post("/fees", "FeesController.notificar")
+}).middleware(['security'])
