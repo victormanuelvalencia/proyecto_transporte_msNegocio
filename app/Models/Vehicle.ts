@@ -1,4 +1,4 @@
-import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Operation from './Operation'
 import OwnerVehicle from './OwnerVehicle'
 import DriverVehicle from './DriverVehicle'
@@ -15,13 +15,10 @@ export default class Vehicle extends BaseModel {
   @column()
   public type_vehicle: string
 
-  @column()
-  public insurance_id: string
-
-  @belongsTo(() => Insurance, {
-    foreignKey: 'insurance_id',  // Establece la relación de clave foránea
+  @hasMany(() => Insurance, {
+    foreignKey: 'vehicle_id',  // Establece la relación de clave foránea
   })
-  public insurance: BelongsTo<typeof Insurance>
+  public insurance: HasMany<typeof Insurance>
 
   @hasMany(() => Operation, {
     foreignKey: 'vehicle_id'

@@ -8,6 +8,7 @@ export default class extends BaseSchema {
       table.increments('id');
       table.string('policy_number').notNullable();
       table.date('expiration_date').notNullable();
+      table.integer('vehicle_id').unsigned().nullable().references('id').inTable('vehicles').onDelete('CASCADE')
     });
   }
 

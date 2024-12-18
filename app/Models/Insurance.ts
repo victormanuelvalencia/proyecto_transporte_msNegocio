@@ -1,4 +1,4 @@
-import { BaseModel, column, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm';
+import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm';
 import Vehicle from './Vehicle';
 
 export default class Insurance extends BaseModel {
@@ -11,8 +11,11 @@ export default class Insurance extends BaseModel {
   @column()
   public expiration_date: Date;
 
-  @hasOne(() => Vehicle, {
-    foreignKey: 'insurance_id',  // Establece la relación de clave foránea
+  @column()
+  public vehicle_id: number;
+
+  @belongsTo(() => Vehicle, {
+    foreignKey: 'vehicle_id',  // Establece la relación de clave foránea
   })
-  public vehicle: HasOne<typeof Vehicle>
+  public vehicle: BelongsTo<typeof Vehicle>
 }
